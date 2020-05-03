@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="DTOs" />
+      <Folder Include="Interfaces\Repositories" />
+      <Folder Include="Interfaces\Services" />
+      <Folder Include="Models" />
+      <Folder Include="Services" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.0-preview.3.20215.14" />
+    </ItemGroup>
+
+</Project>
