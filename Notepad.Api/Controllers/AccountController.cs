@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Notepad.Api.Controllers
 {
+    [ApiController]
     [Route("api/[controller]/[Action]")]
     public class AccountController: ControllerBase
     {

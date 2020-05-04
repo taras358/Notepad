@@ -1,12 +1,12 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Notepad.Infrastructure;
+using Notepad.Api.Middlewares;
 using Notepad.Infrastructure.Extentions;
 using Notepad.Infrastructure.Helpers;
 
@@ -28,7 +28,7 @@ namespace Notepad.Api
             services.AddCustomDbContext(Configuration.GetConnectionString("DefaultConnection"));
             services.AddSwaggerGen(config =>
             {
-                config.SwaggerDoc("1.0.0v", new OpenApiInfo
+                config.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Notepad",
                     Version = "v1"
@@ -39,12 +39,13 @@ namespace Notepad.Api
             services.AddControllers();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            loggerFactory.AddFile(Configuration.GetSection("Logging"));
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -55,8 +56,11 @@ namespace Notepad.Api
             app.UseRouting();
 
             app.UseAuthorization();
-
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseMiddleware<HttpMiddleware>();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
 
         public static void ConfigureAutomapper(IServiceCollection services)

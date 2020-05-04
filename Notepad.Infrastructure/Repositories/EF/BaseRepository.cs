@@ -9,7 +9,7 @@ namespace Notepad.Infrastructure.Repositories.EF
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
-        private readonly AppDbContext _appDbContext;
+        protected AppDbContext _appDbContext;
         protected DbSet<TEntity> _dbSet;
 
         public BaseRepository(AppDbContext appDbContext)

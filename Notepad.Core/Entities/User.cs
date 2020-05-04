@@ -20,15 +20,6 @@ namespace Notepad.Core.Entities
 
         public DateTimeOffset UpdateDate { get; set; }
 
-        [Range(0, double.MaxValue)]
-        public double FixedTax { get; set; }
-
-        [Range(0, 100)]
-        public double PartialTax { get; set; }
-
-        [Range(0, 100)]
-        public double Saving { get; set; }
-
         public User()
         {
             Id = Guid.NewGuid().ToString();

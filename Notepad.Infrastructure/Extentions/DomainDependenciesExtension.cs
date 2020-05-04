@@ -12,6 +12,7 @@ namespace Notepad.Infrastructure.Extentions
         {
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 
 
 
