@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Notepad.Core.Constants;
-using Notepad.Core.Exceptions;
 using Notepad.Core.Interfaces.Services;
 using Notepad.Core.Models.Requests;
 using Notepad.Core.Models.Responses;
@@ -11,6 +10,7 @@ using System.Threading.Tasks;
 namespace Notepad.Api.Controllers
 {
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]/[Action]")]
     public class AccountController: ControllerBase
     {
@@ -22,14 +22,44 @@ namespace Notepad.Api.Controllers
         }
 
 
+
+        [HttpPost]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(JwtAuthResponse), StatusCodes.Status200OK)]
+        [AllowAnonymous]
+        public async Task<ActionResult> Login([FromBody]LoginRequest request)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            JwtAuthResponse response = await _userService.Login(request);
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(JwtAuthResponse), StatusCodes.Status200OK)]
+        [AllowAnonymous]
+        public async Task<ActionResult> RefreshToken([FromBody]RefreshTokenRequest request)
+        {
+             if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            JwtAuthResponse response = await _userService.RefreshToken(request);
+            return Ok(response);
+        }
+
         [HttpPost]
         [Produces("application/json")]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+        [AllowAnonymous]
         public async Task<IActionResult> Create([FromBody]CreateUserRequest createUserRequest)
         {
             if (!ModelState.IsValid)
             {
-                throw new AppCustomException(StatusCodes.Status400BadRequest, ExceptionConstants.InvalidModelState);
+                return BadRequest();
             }
             UserResponse result = await _userService.CreateUser(createUserRequest);
             return Ok(result);
@@ -38,9 +68,13 @@ namespace Notepad.Api.Controllers
         [HttpGet]
         [Produces("application/json")]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetById(string Id)
+        public async Task<IActionResult> GetById(string id)
         {
-            UserResponse result = await _userService.GetUserById(Id);
+            if(string.IsNullOrWhiteSpace(id))
+            {
+                return BadRequest();
+            }
+            UserResponse result = await _userService.GetUserById(id);
             return Ok(result);
         }
 
@@ -58,6 +92,10 @@ namespace Notepad.Api.Controllers
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(string id)
         {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return BadRequest();
+            }
             string result = await _userService.DeleteUser(id);
             return Ok(result);
         }

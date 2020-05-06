@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Notepad.Core.Helpers;
 using Notepad.Core.Interfaces.Repositories;
 using Notepad.Core.Interfaces.Services;
 using Notepad.Core.Services;
+using Notepad.Infrastructure.Helpers;
 using Notepad.Infrastructure.Repositories.EF;
 
 namespace Notepad.Infrastructure.Extentions
@@ -17,6 +19,9 @@ namespace Notepad.Infrastructure.Extentions
 
 
             services.AddScoped<IAccountService, AccountService>();
+
+
+            services.AddScoped<IJwtHelper, JwtHelper>();
         }
     }
 }

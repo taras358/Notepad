@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Notepad.Core.Constants;
 using Notepad.Core.Exceptions;
 using System;
 using System.Threading.Tasks;
@@ -23,18 +24,25 @@ namespace Notepad.Api.Middlewares
             {
                 await _next(context);
             }
-            catch (AppCustomException ex)
+            catch (AppCustomException exception)
             {
-                await context.Response.WriteAsync(ex.Message);
+                await context.Response.WriteAsync(exception.Message);
             }
-            catch(Exception ex)
+            catch (UnauthorizeException exception)
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                context.Response.Headers.Add(ExceptionConstants.InvalidRefresh, "true");
+                context.Response.ContentType = @"application/json";
+                await context.Response.WriteAsync(exception.Message);
+            }
+            catch (Exception exception)
             {
                 if (context.Response.HasStarted)
                 {
                     _logger.LogWarning("The response has already started, the http status code middleware will not be executed.");
                     throw;
                 }
-                _logger.LogCritical($"Message={ex.Message}/StackTrace={ex.StackTrace}");
+                _logger.LogCritical($"Message={exception.Message}/StackTrace={exception.StackTrace}");
                 context.Response.StatusCode = StatusCodes.Status400BadRequest;
                 context.Response.ContentType = @"application/json";
             }

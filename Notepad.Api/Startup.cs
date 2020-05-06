@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using Notepad.Api.Middlewares;
 using Notepad.Infrastructure.Extentions;
 using Notepad.Infrastructure.Helpers;
+using Notepad.Infrastructure.Options;
 
 namespace Notepad.Api
 {
@@ -25,6 +26,8 @@ namespace Notepad.Api
         {
             services.AddDomainDependencies();
 
+            services.Configure<AuthTokenOption>(Configuration.GetSection(typeof(AuthTokenOption).Name));
+
             services.AddCustomDbContext(Configuration.GetConnectionString("DefaultConnection"));
             services.AddSwaggerGen(config =>
             {
@@ -35,7 +38,7 @@ namespace Notepad.Api
                 });
             });
             ConfigureAutomapper(services);
-
+            services.AddAuthOptions(Configuration.GetSection("AuthTokenOption:JwtKey").Value);
             services.AddControllers();
         }
 
@@ -52,7 +55,7 @@ namespace Notepad.Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Notepad");
             });
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseRouting();
 
             app.UseAuthorization();
