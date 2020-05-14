@@ -10,8 +10,8 @@ using Notepad.Infrastructure;
 namespace Notepad.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200503131331_add-user-profile")]
-    partial class adduserprofile
+    [Migration("20200514072857_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -154,6 +154,56 @@ namespace Notepad.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Notepad.Core.Entities.Debt", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTimeOffset>("CreationDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("DebtorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DebtorId");
+
+                    b.ToTable("Debts");
+                });
+
+            modelBuilder.Entity("Notepad.Core.Entities.Debtor", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTimeOffset>("CreationDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Surname")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Debtors");
                 });
 
             modelBuilder.Entity("Notepad.Core.Entities.User", b =>
@@ -313,6 +363,13 @@ namespace Notepad.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Notepad.Core.Entities.Debt", b =>
+                {
+                    b.HasOne("Notepad.Core.Entities.Debtor", "Debtor")
+                        .WithMany("Depts")
+                        .HasForeignKey("DebtorId");
                 });
 
             modelBuilder.Entity("Notepad.Core.Entities.UserProfile", b =>

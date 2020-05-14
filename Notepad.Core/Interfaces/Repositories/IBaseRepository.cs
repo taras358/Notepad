@@ -6,7 +6,7 @@ namespace Notepad.Core.Interfaces.Repositories
     public interface IBaseRepository<TEntity>
     {
         Task<TEntity> GetById(string id);
-        Task<IEnumerable<TEntity>> GetAll();
+        Task<List<TEntity>> GetAll();
         Task<string> Add(TEntity entity);
         Task<int> AddRange(List<TEntity> entities);
         Task Update(TEntity entity);

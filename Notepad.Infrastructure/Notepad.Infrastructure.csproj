@@ -5,16 +5,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Remove="Migrations\20200503082648_init.cs" />
-      <Compile Remove="Migrations\20200503082648_init.Designer.cs" />
-      <Compile Remove="Migrations\20200503082956_init.cs" />
-      <Compile Remove="Migrations\20200503082956_init.Designer.cs" />
-      <Compile Remove="Migrations\20200503083258_init-fix.cs" />
-      <Compile Remove="Migrations\20200503083258_init-fix.Designer.cs" />
-      <Compile Remove="Migrations\20200503130755_add-user-profile.cs" />
-      <Compile Remove="Migrations\20200503130755_add-user-profile.Designer.cs" />
-      <Compile Remove="Migrations\20200503131137_add-user-profile.cs" />
-      <Compile Remove="Migrations\20200503131137_add-user-profile.Designer.cs" />
+      <Compile Remove="Migrations\20200514072726_init.cs" />
+      <Compile Remove="Migrations\20200514072726_init.Designer.cs" />
     </ItemGroup>
 
     <ItemGroup>

@@ -20,5 +20,9 @@
       <ProjectReference Include="..\Notepad.Infrastructure\Notepad.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="WebApp\" />
+    </ItemGroup>
+
 
 </Project>

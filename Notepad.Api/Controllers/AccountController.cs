@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Notepad.Api.Controllers
 {
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    //[Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]/[Action]")]
     public class AccountController: ControllerBase
     {

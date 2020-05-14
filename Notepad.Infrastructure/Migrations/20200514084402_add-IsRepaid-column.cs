@@ -2,22 +2,22 @@
 
 namespace Notepad.Infrastructure.Migrations
 {
-    public partial class addsavingcolumn : Migration
+    public partial class addIsRepaidcolumn : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<double>(
-                name: "Saving",
-                table: "AspNetUsers",
+            migrationBuilder.AddColumn<bool>(
+                name: "IsRepaid",
+                table: "Debts",
                 nullable: false,
-                defaultValue: 0.0);
+                defaultValue: false);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Saving",
-                table: "AspNetUsers");
+                name: "IsRepaid",
+                table: "Debts");
         }
     }
 }

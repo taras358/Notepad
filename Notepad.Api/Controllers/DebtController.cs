@@ -1,0 +1,41 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Notepad.Core.Interfaces.Services;
+using Notepad.Core.Models.Requests;
+using System.Threading.Tasks;
+
+namespace Notepad.Api.Controllers
+{
+    [Route("api/[controller]")]
+    public class DebtController : Controller
+    {
+        private readonly IDebtService _debtService;
+
+        public DebtController(IDebtService debtService)
+        {
+            _debtService = debtService;
+        }
+
+        [HttpPost("create")]
+        [Produces("application/json")]
+        public async Task<IActionResult> Create([FromBody]CreateDebtRequest request)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            await _debtService.Create(request);
+            return Ok();
+        }
+        [HttpDelete("delete")]
+        [Produces("application/json")]
+        public async Task<IActionResult> Delete([FromBody]DeleteDebtRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            await _debtService.Delete(request);
+            return Ok();
+        }
+    }
+}

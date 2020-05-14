@@ -16,8 +16,13 @@ namespace Notepad.Infrastructure
 
             builder.Entity<UserProfile>()
                 .HasOne(x => x.User);
+
+            builder.Entity<Debt>()
+                .HasQueryFilter(c => !c.IsRepaid);
         }
 
         public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<Debtor> Debtors{ get; set; }
+        public DbSet<Debt> Debts { get; set; }
     }
 }

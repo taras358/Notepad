@@ -44,7 +44,7 @@ namespace Notepad.Infrastructure.Repositories.EF
             await _appDbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAll()
+        public async Task<List<TEntity>> GetAll()
         {
             return await _dbSet
                 .ToListAsync();

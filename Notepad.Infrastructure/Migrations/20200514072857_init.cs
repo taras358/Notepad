@@ -42,13 +42,26 @@ namespace Notepad.Infrastructure.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: true),
                     Surname = table.Column<string>(maxLength: 50, nullable: true),
-                    UpdateDate = table.Column<DateTimeOffset>(nullable: false),
-                    FixedTax = table.Column<double>(nullable: false),
-                    PartialTax = table.Column<double>(nullable: false)
+                    UpdateDate = table.Column<DateTimeOffset>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Debtors",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    CreationDate = table.Column<DateTimeOffset>(nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: true),
+                    Surname = table.Column<string>(maxLength: 50, nullable: true),
+                    FullName = table.Column<string>(maxLength: 100, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Debtors", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,6 +170,50 @@ namespace Notepad.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserProfiles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    CreationDate = table.Column<DateTimeOffset>(nullable: false),
+                    UserId = table.Column<string>(maxLength: 450, nullable: false),
+                    ProfileImage = table.Column<string>(nullable: true),
+                    FixedTax = table.Column<double>(nullable: false),
+                    PartialTax = table.Column<double>(nullable: false),
+                    Saving = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserProfiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserProfiles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Debts",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    CreationDate = table.Column<DateTimeOffset>(nullable: false),
+                    Amount = table.Column<double>(nullable: false),
+                    Description = table.Column<string>(maxLength: 250, nullable: true),
+                    DebtorId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Debts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Debts_Debtors_DebtorId",
+                        column: x => x.DebtorId,
+                        principalTable: "Debtors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -195,6 +252,16 @@ namespace Notepad.Infrastructure.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Debts_DebtorId",
+                table: "Debts",
+                column: "DebtorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserProfiles_UserId",
+                table: "UserProfiles",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -215,7 +282,16 @@ namespace Notepad.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Debts");
+
+            migrationBuilder.DropTable(
+                name: "UserProfiles");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Debtors");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
