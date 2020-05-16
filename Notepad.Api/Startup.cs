@@ -7,9 +7,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Notepad.Api.Middlewares;
+using Notepad.Core.Constants;
 using Notepad.Infrastructure.Extentions;
 using Notepad.Infrastructure.Helpers;
 using Notepad.Infrastructure.Options;
+using System;
+using System.Linq;
 
 namespace Notepad.Api
 {
@@ -38,6 +41,7 @@ namespace Notepad.Api
                 });
             });
             ConfigureAutomapper(services);
+            ConfigureCors(services, Configuration);
             services.AddAuthOptions(Configuration.GetSection("AuthTokenOption:JwtKey").Value);
             services.AddControllers();
         }
@@ -49,12 +53,13 @@ namespace Notepad.Api
                 app.UseDeveloperExceptionPage();
             }
             loggerFactory.AddFile(Configuration.GetSection("Logging"));
+            app.UseCors("OriginPolicy");
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Notepad");
             });
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseRouting();
 
@@ -75,6 +80,22 @@ namespace Notepad.Api
             });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
+        }
+
+        private void ConfigureCors(IServiceCollection services, IConfiguration configuration)
+        {
+            IConfigurationSection corsOptions = configuration.GetSection("Cors");
+            string origins = corsOptions["Origins"];
+            services.AddCors(options =>
+            {
+                options.AddPolicy("OriginPolicy", builder =>
+                {
+                    builder.WithOrigins(origins.Split(",", StringSplitOptions.RemoveEmptyEntries).ToArray())
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials().WithExposedHeaders(ExceptionConstants.TokenExpiredHeader, ExceptionConstants.InvalidRefresh);
+                });
+            });
         }
     }
 }

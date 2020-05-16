@@ -1,0 +1,50 @@
+<div>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Total Debt</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let debtor of deptors" 
+      (click)='onDebtorClick(debtor)'
+      class="debtor-row">
+        <td>{{debtor.name}}</td>
+        <td>{{debtor.surname}}</td>
+        <td>{{debtor.totalDebt}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<form [formGroup]="createDeptorFrom">
+  <input type="text" formControlName="name">
+  <input type="text" formControlName="surname">
+  <button type="submit" (click)='onAddDebtorClick()'>ADD</button>
+</form>
+<br>
+<br>
+<br>
+<form [formGroup]="serachDeptorForm">
+  <input type="text" formControlName="fullName">
+  <button type="submit" (click)='onSearchDebtorClick()'>SEARCH</button>
+</form>
+<div>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Total Debt</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let debtor of filtered" (click)='onDebtorClick(debtor)' class="debtor-row">
+        <td>{{debtor.name}}</td>
+        <td>{{debtor.surname}}</td>
+        <td>{{debtor.totalDebt}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

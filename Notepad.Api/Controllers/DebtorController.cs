@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Notepad.Core.Interfaces.Services;
 using Notepad.Core.Models.Requests;
 using Notepad.Core.Models.Responses;
@@ -18,6 +19,7 @@ namespace Notepad.Api.Controllers
         }
 
         [HttpGet("find")]
+        [ProducesResponseType(typeof(DebtorsResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Find([FromQuery]string query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -29,6 +31,7 @@ namespace Notepad.Api.Controllers
         }
 
         [HttpGet("getDebtor")]
+        [ProducesResponseType(typeof(DebtorResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetGebtor([FromQuery]string debtorId)
         {
             if (string.IsNullOrWhiteSpace(debtorId))
@@ -40,6 +43,7 @@ namespace Notepad.Api.Controllers
         }
 
         [HttpGet("getDebtors")]
+        [ProducesResponseType(typeof(DebtorsResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetGebtors()
         {
             DebtorsResponse deptors = await _deptorService.GetAll();

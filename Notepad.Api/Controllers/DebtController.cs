@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Notepad.Core.Interfaces.Services;
 using Notepad.Core.Models.Requests;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Notepad.Api.Controllers
@@ -26,7 +27,7 @@ namespace Notepad.Api.Controllers
             await _debtService.Create(request);
             return Ok();
         }
-        [HttpDelete("delete")]
+        [HttpPost("delete")]
         [Produces("application/json")]
         public async Task<IActionResult> Delete([FromBody]DeleteDebtRequest request)
         {
