@@ -1,4 +1,39 @@
-<div>
+<div class="container">
+  <form class="search-form" [formGroup]="serachDeptorForm">
+      <input placeholder="Enter debtor name" type="text" formControlName="fullName">
+      <button type="submit" (click)='onSearchDebtorClick()'><i class="icon-search"></i></button>
+  
+  </form>
+
+  <div *ngIf="isNotFound">
+    <form [formGroup]="createDeptorFrom">
+      <input type="text" formControlName="name">
+      <input type="text" formControlName="surname">
+      <button type="submit" (click)='onAddDebtorClick()'>ADD</button>
+    </form>
+  </div>
+
+  <div *ngIf="filtered.length > 0" class="debtors-conrainer">
+    <table class="table-container">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Surname</th>
+          <th>Total Debt</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let debtor of filtered" (click)='onDebtorClick(debtor)' class="debtor-row">
+          <td>{{debtor.name}}</td>
+          <td>{{debtor.surname}}</td>
+          <td>{{debtor.totalDebt}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- <div>
   <table>
     <thead>
       <tr>
@@ -26,10 +61,7 @@
 <br>
 <br>
 <br>
-<form [formGroup]="serachDeptorForm">
-  <input type="text" formControlName="fullName">
-  <button type="submit" (click)='onSearchDebtorClick()'>SEARCH</button>
-</form>
+
 <div>
   <table>
     <thead>
@@ -47,4 +79,4 @@
       </tr>
     </tbody>
   </table>
-</div>
+</div> -->

@@ -4,6 +4,7 @@ import { DebtorService } from '../shared/services/debtor.service';
 import { DebtorResponse } from '../shared/models/debtor-response.model';
 import { Debtor } from '../shared/models/deptor';
 import { Debt } from '../shared/models/debt';
+import { NavbarService } from '../shared/services/nav-bar.service';
 
 @Component({
   selector: 'app-debtor-history',
@@ -12,20 +13,23 @@ import { Debt } from '../shared/models/debt';
 })
 export class DebtorHistoryComponent implements OnInit {
 
-  public debtorId: string;
   public debtor: Debtor;
+  public debtorId: string;
 
   constructor(private route: ActivatedRoute,
-    private debtorService: DebtorService) { }
+    private debtorService: DebtorService,
+    private navbarService: NavbarService) { }
 
   ngOnInit() {
-    debugger
-    this.route.params.subscribe(params => {
-      this.debtorId = params['id'];
-    });
-
-    this.getDebtorHistory();
+    this.navbarService.getDebtor()
+      .subscribe(debtor => {
+        if (debtor) {
+          this.debtorId = debtor.id;
+          this.getDebtorHistory();
+        }
+      });
   }
+
   public getDebtorHistory(): void {
     this.debtorService.getGebtor(this.debtorId)
       .subscribe((response: DebtorResponse) => {

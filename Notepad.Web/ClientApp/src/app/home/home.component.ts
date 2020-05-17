@@ -15,6 +15,7 @@ import { NavbarService } from '../shared/services/nav-bar.service';
 export class HomeComponent implements OnInit {
   public deptors: Array<Debtor>;
   public filtered: Array<Debtor>;
+  public isNotFound: boolean;
 
   constructor(public debtorServise: DebtorService,
     private router: Router,
@@ -27,6 +28,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.deptors = [];
     this.filtered = [];
+    this.isNotFound = false;
     this.getGebtors();
 
     this.createDeptorFrom = new FormGroup({
@@ -40,9 +42,8 @@ export class HomeComponent implements OnInit {
 
   public onDebtorClick(debtor: Debtor) {
     if (debtor) {
-      this.navbarService.updateDebtorStatus(true);
-      this.navbarService.updateNavAfterDebtorSelect();
-      this.router.navigate(['/history', debtor.id]);
+      this.navbarService.setDebtor(debtor);
+      this.router.navigate(['/history']);
     }
   }
 
@@ -88,6 +89,11 @@ export class HomeComponent implements OnInit {
               totalDebt: x.totalDebt
             } as Debtor;
           });
+          if (this.filtered.length === 0) {
+            this.isNotFound = true;
+          } else {
+            this.isNotFound = false;
+          }
         });
     }
   }

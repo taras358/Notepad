@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateDebtRequest } from '../shared/models/create-debt-request';
 import { DebtService } from '../shared/services/debt.service';
+import { NavbarService } from '../shared/services/nav-bar.service';
 
 @Component({
   selector: 'app-add-debt',
@@ -16,12 +17,14 @@ export class AddDebtComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private debtService: DebtService,
-    private router: Router) { }
+    private router: Router,
+    private navbarService: NavbarService) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.debtorId = params['id'];
-    });
+    this.navbarService.getDebtor()
+      .subscribe(debtor => {
+        this.debtorId = debtor.id;
+      });
 
     this.addDebtGroup = new FormGroup({
       amount: new FormControl(0, Validators.required)
@@ -38,7 +41,7 @@ export class AddDebtComponent implements OnInit {
     } as CreateDebtRequest;
     this.debtService.createDebt(newDebt)
       .subscribe(response => {
-        this.router.navigate(['/history', this.debtorId]);
+        this.router.navigate(['/history']);
       });
 
   }

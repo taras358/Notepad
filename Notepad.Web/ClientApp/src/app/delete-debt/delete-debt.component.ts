@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DebtService } from '../shared/services/debt.service';
 import { CreateDebtRequest } from '../shared/models/create-debt-request';
 import { DeleteDebtRequest } from '../shared/models/delete-debt-request';
+import { NavbarService } from '../shared/services/nav-bar.service';
 
 @Component({
   selector: 'app-delete-debt',
@@ -17,12 +18,14 @@ export class DeleteDebtComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private debtService: DebtService,
-    private router: Router) { }
+    private router: Router,
+    private navbarService: NavbarService) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.debtorId = params['id'];
-    });
+    this.navbarService.getDebtor()
+      .subscribe(debtor => {
+        this.debtorId = debtor.id;
+      });
 
     this.deleteDebtGroup = new FormGroup({
       amount: new FormControl(0, Validators.required)
@@ -38,7 +41,7 @@ export class DeleteDebtComponent implements OnInit {
     } as DeleteDebtRequest;
     this.debtService.deleteDebt(newDebt)
       .subscribe(response => {
-        this.router.navigate(['/history', this.debtorId]);
+        this.router.navigate(['/history']);
       });
   }
 

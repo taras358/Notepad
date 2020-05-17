@@ -1,45 +1,55 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject, Observable } from 'rxjs';
+import { Debtor } from '../models/deptor';
 
 @Injectable({
     providedIn: 'root'
 })
 export class NavbarService {
+
     private links = new Array<{ text: string, path: string, iconClass: string }>();
     private isDebtorSelected = new Subject<boolean>();
 
+    private currentDeptorSubject: BehaviorSubject<Debtor>;
+    private currentDeptor: Observable<Debtor>;
+
     constructor() {
         this.isDebtorSelected.next(false);
+        this.currentDeptorSubject = new BehaviorSubject<Debtor>(JSON.parse(localStorage.getItem('debtor')));
+        this.currentDeptor = this.currentDeptorSubject.asObservable();
     }
     public getLinks() {
         return this.links;
     }
-    public getDebtorStatus() {
-        return this.isDebtorSelected;
+    public getDebtor() {
+        return this.currentDeptor;
     }
 
-    public updateDebtorStatus(status: boolean) {
-        this.isDebtorSelected.next(status);
-        if (!status) {
-            this.clearAllItems();
+    public setDebtor(debtor: Debtor) {
+        this.currentDeptorSubject.next(debtor);
+        localStorage.setItem('debtor', JSON.stringify(debtor));
+        if (debtor) {
+            this.updateNavAfterDebtorSelect();
         }
     }
-    public updateNavAfterDebtorSelect(): void {
-        this.addItem({ text: 'History', path: 'history/:id', iconClass: 'icon-history-plus' });
-        this.addItem({ text: 'Add debt', path: 'add-debt/:id', iconClass: 'icon-add-sign' });
-        this.addItem({ text: 'Delete debt', path: 'delete-debt/:id', iconClass: 'icon-delete-sign' });
+    public removeDebtor() {
+        this.currentDeptorSubject.next(null);
+        localStorage.removeItem('debtor');
+        this.clearAllItems();
     }
+
+    private updateNavAfterDebtorSelect(): void {
+        this.clearAllItems();
+        this.addItem({ text: 'History', path: 'history', iconClass: 'icon-history-plus' });
+        this.addItem({ text: 'Add debt', path: 'add-debt', iconClass: 'icon-add-sign' });
+        this.addItem({ text: 'Delete debt', path: 'delete-debt', iconClass: 'icon-delete-sign' });
+    }
+
     public addItem({ text, path, iconClass }) {
         this.links.push({ text: text, path: path, iconClass: iconClass });
     }
-    public removeItem({ text }) {
-        this.links.forEach((link, index) => {
-            if (link.text === text) {
-                this.links.splice(index, 1);
-            }
-        });
-    }
-    public clearAllItems() {
+
+    private clearAllItems() {
         this.links.length = 0;
     }
 }
