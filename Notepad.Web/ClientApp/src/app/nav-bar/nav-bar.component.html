@@ -1,3 +1,23 @@
-<div>
-  <a [routerLink]="['/home']">BACK</a>
+<div class="navbar-container">
+  <div class="navbar-menu">
+    <div class="top-item">
+      <div class="navbar-item">
+        <a class="" routerLink="home">
+          <i class="icon-search"></i>
+        </a>
+      </div>
+      <div class="navbar-item" *ngFor="let link of links">
+        <a class="" [routerLink]="link.path">
+          <i class="{{link.iconClass}}"></i>
+        </a>
+      </div>
+    </div>
+    <div class="bottom-item">
+      <div class="navbar-item">
+        <a class="" routerLink="home">
+          <i class="icon-back-arrow"></i>
+        </a>
+      </div>
+    </div>
+  </div>
 </div>

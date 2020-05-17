@@ -1,9 +1,5 @@
 
 <div *ngIf="debtor">
-  <div>
-    <a [routerLink]="['/add-debt', debtor.id]">ADD DEBT</a>
-    <a [routerLink]="['/delete-debt', debtor.id]">DELETE DEBT</a>
-  </div>
   <h3>{{debtor.name}} {{debtor.surname}}</h3>
   <table>
     <thead>

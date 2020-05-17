@@ -27,6 +27,11 @@ import { DeleteDebtComponent } from './delete-debt/delete-debt.component';
       AppRoutingModule,
       BrowserModule
    ],
+   entryComponents: [
+      AddDebtComponent,
+      DebtorHistoryComponent,
+      DeleteDebtComponent
+   ],
    providers: [],
    bootstrap: [
       AppComponent

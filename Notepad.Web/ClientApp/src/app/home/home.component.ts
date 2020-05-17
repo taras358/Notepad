@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DebtorRequest } from '../shared/models/debtor-request.model';
 import { Debtor } from '../shared/models/deptor';
 import { Router } from '@angular/router';
+import { NavbarService } from '../shared/services/nav-bar.service';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,8 @@ export class HomeComponent implements OnInit {
   public filtered: Array<Debtor>;
 
   constructor(public debtorServise: DebtorService,
-    private router: Router) { }
+    private router: Router,
+    private navbarService: NavbarService) { }
 
   public createDeptorFrom: FormGroup;
   public serachDeptorForm: FormGroup;
@@ -38,6 +40,8 @@ export class HomeComponent implements OnInit {
 
   public onDebtorClick(debtor: Debtor) {
     if (debtor) {
+      this.navbarService.updateDebtorStatus(true);
+      this.navbarService.updateNavAfterDebtorSelect();
       this.router.navigate(['/history', debtor.id]);
     }
   }
