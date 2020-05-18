@@ -23,7 +23,9 @@ export class AddDebtComponent implements OnInit {
   ngOnInit() {
     this.navbarService.getDebtor()
       .subscribe(debtor => {
-        this.debtorId = debtor.id;
+        if (debtor) {
+          this.debtorId = debtor.id;
+        }
       });
 
     this.addDebtGroup = new FormGroup({

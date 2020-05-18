@@ -73,5 +73,15 @@ namespace Notepad.Api.Controllers
             await _deptorService.Update(request);
             return Ok();
         }
+        [HttpDelete("delete")]
+        public async Task<IActionResult> Delete([FromQuery]string debtorId)
+        {
+            if (string.IsNullOrWhiteSpace(debtorId))
+            {
+                return BadRequest();
+            }
+            await _deptorService.Delete(debtorId);
+            return Ok();
+        }
     }
 }

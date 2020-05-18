@@ -36,6 +36,16 @@ namespace Notepad.Core.Services
             return debtorId;
         }
 
+        public async Task Delete(string debtorId)
+        {
+            Debtor debtor = await _deptorRepository.GetById(debtorId);
+            if(debtor is null) 
+            {
+                throw new AppCustomException(StatusCodes.Status400BadRequest, "Debtor does not exists");
+            }
+            await _deptorRepository.Delete(debtor);
+        }
+
         public async Task<DebtorsResponse> FindByFullName(string query)
         {
             List<Debtor> debtors = await _deptorRepository.FindByFullName(query);

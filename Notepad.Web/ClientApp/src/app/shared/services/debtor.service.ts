@@ -37,4 +37,10 @@ export class DebtorService {
             params: params
         });
     }
+    public deleteDebtor(debtorId: string): Observable<void> {
+        const params = new HttpParams().set('debtorId', debtorId);
+        return this.http.delete<void>(this.apiUrl + 'api/debtor/delete', {
+            params: params
+        });
+    }
 }

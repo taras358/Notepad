@@ -1,15 +1,25 @@
 <div class="container">
-  <form class="search-form" [formGroup]="serachDeptorForm">
-      <input placeholder="Enter debtor name" type="text" formControlName="fullName">
+  <div *ngIf="!isAddDebtorFormActive">
+    <form class="search-form" [formGroup]="serachDeptorForm">
+      <input placeholder="Enter name or surname" type="text" formControlName="fullName">
       <button type="submit" (click)='onSearchDebtorClick()'><i class="icon-search"></i></button>
-  
-  </form>
+    </form>
+  </div>
 
-  <div *ngIf="isNotFound">
-    <form [formGroup]="createDeptorFrom">
-      <input type="text" formControlName="name">
-      <input type="text" formControlName="surname">
-      <button type="submit" (click)='onAddDebtorClick()'>ADD</button>
+  <div *ngIf="isAddDebtorFormActive">
+    <form class="add-form" [formGroup]="createDeptorFrom">
+      <input 
+      class="add-form_input_name" 
+      type="text" 
+      formControlName="name"
+      placeholder="Enter Name"
+      >
+      <input 
+      class="add-form_input_surname" 
+      type="text" 
+      formControlName="surname"
+      placeholder="Enter Surname">
+      <button type="submit" (click)='onAddDebtorClick()'><i class="icon-add-sign"></i></button>
     </form>
   </div>
 
@@ -20,6 +30,7 @@
           <th>Name</th>
           <th>Surname</th>
           <th>Total Debt</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -27,56 +38,9 @@
           <td>{{debtor.name}}</td>
           <td>{{debtor.surname}}</td>
           <td>{{debtor.totalDebt}}</td>
+          <td (click)="onDeleteDebtorClick(debtor, $event)">x</td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
-
-<!-- <div>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Surname</th>
-        <th>Total Debt</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let debtor of deptors" 
-      (click)='onDebtorClick(debtor)'
-      class="debtor-row">
-        <td>{{debtor.name}}</td>
-        <td>{{debtor.surname}}</td>
-        <td>{{debtor.totalDebt}}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<form [formGroup]="createDeptorFrom">
-  <input type="text" formControlName="name">
-  <input type="text" formControlName="surname">
-  <button type="submit" (click)='onAddDebtorClick()'>ADD</button>
-</form>
-<br>
-<br>
-<br>
-
-<div>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Surname</th>
-        <th>Total Debt</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let debtor of filtered" (click)='onDebtorClick(debtor)' class="debtor-row">
-        <td>{{debtor.name}}</td>
-        <td>{{debtor.surname}}</td>
-        <td>{{debtor.totalDebt}}</td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->

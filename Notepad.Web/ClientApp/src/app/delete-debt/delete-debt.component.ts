@@ -24,7 +24,9 @@ export class DeleteDebtComponent implements OnInit {
   ngOnInit() {
     this.navbarService.getDebtor()
       .subscribe(debtor => {
-        this.debtorId = debtor.id;
+        if (debtor) {
+          this.debtorId = debtor.id;
+        }
       });
 
     this.deleteDebtGroup = new FormGroup({

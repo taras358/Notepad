@@ -33,19 +33,21 @@ export class DebtorHistoryComponent implements OnInit {
   public getDebtorHistory(): void {
     this.debtorService.getGebtor(this.debtorId)
       .subscribe((response: DebtorResponse) => {
-        this.debtor = {
-          id: response.id,
-          name: response.name,
-          surname: response.surname,
-          debts: response.debts.map(x => {
-            return {
-              id: x.id,
-              amount: x.amount,
-              creationDate: x.creationDate,
-              description: x.description
-            } as Debt;
-          })
-        } as Debtor;
+        if (response) {
+          this.debtor = {
+            id: response.id,
+            name: response.name,
+            surname: response.surname,
+            debts: response.debts.map(x => {
+              return {
+                id: x.id,
+                amount: x.amount,
+                creationDate: x.creationDate,
+                description: x.description
+              } as Debt;
+            })
+          } as Debtor;
+        }
       });
   }
 }

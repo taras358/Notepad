@@ -28,6 +28,9 @@
   .icon-search:before {
     content: "\e904";
   }
+  .icon-add-sign:before {
+    content: "\e900";
+  }
  
 .debtor-row {
     &:hover {
@@ -59,17 +62,51 @@
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
         padding: 5px 10px;
-    outline: none;
-    position: absolute;
-    top: 0;
-    right: 0;
-
-
+        outline: none;
+        position: absolute;
+        top: 0;
+        right: 0;
     }
 }
 .debtors-conrainer {
     margin-top: 15px;
     .table-container {
         width: 100%;
+    }
+}
+.add-form {
+    margin-top: 8px;
+    position: relative;
+    border-radius: 10px;
+    &:hover{
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        transition: .5s;
+    }
+    &_input_name {
+        border: none;
+        width: 47%;
+        background: #F1EEEE;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        padding: 5px 5px 5px 10px;
+        outline: none;
+    }
+    &_input_surname {
+        border: none;
+        width: 50%;
+        background: #F1EEEE;
+        padding: 5px 5px 5px 10px;
+        outline: none;
+    }
+    button {
+        border: none;
+        background: #F1EEEE;
+        padding: 5px 5px 5px 10px;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        outline: none;
+        position: absolute;
+        top: 0;
+        right: 0;
     }
 }
