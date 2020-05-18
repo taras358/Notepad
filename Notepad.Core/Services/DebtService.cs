@@ -35,8 +35,7 @@ namespace Notepad.Core.Services
                 throw new AppCustomException(StatusCodes.Status400BadRequest, "Debtor does not exist");
             }
             Debt debt = _mapper.Map<CreateDebtRequest, Debt>(request);
-            debtor.Depts.Add(debt);
-            debtor.TotalDebt = CalculateTotalDebt(debtor.Depts);
+            debtor.Debts.Add(debt);
             await _debtorRepository.Update(debtor);
         }
 
@@ -47,19 +46,25 @@ namespace Notepad.Core.Services
             {
                 throw new AppCustomException(StatusCodes.Status400BadRequest, "Debtor does not exist");
             }
-            debtor.Depts = DeleteDebt(debtor.Depts, request.Amount);
-            debtor.TotalDebt = CalculateTotalDebt(debtor.Depts);
+            debtor.Debts = DeleteDebt(debtor.Debts, request.Amount);
             await _debtorRepository.Update(debtor);
         }
 
         private List<Debt> DeleteDebt(IEnumerable<Debt> debts, double amount)
         {
             double restOfAmount = amount;
+            Debt restDebt = null;
             List<Debt> updatedDebts = new List<Debt>();
-            IEnumerable<Debt> reversedDebts = debts.Reverse();
+            IEnumerable<Debt> reversedDebts = debts
+                                                .OrderBy(x => x.CreationDate);
             foreach (var debt in reversedDebts)
             {
-                if (restOfAmount != -1)
+                if (debt.IsRepaid)
+                {
+                    updatedDebts.Add(debt);
+                    continue;
+                }
+                if (restOfAmount > 0)
                 {
                     if (restOfAmount - debt.Amount >= 0)
                     {
@@ -68,29 +73,22 @@ namespace Notepad.Core.Services
                     }
                     else
                     {
-                        debt.CreationDate = DateTimeOffset.UtcNow;
-                        debt.Amount = Math.Round(debt.Amount - restOfAmount, 2);
-                        debt.Description = debt.Description.Contains("(rest)") ? debt.Description: $"{debt.Description} (rest)";
-                        restOfAmount = -1;
+                        restDebt = new Debt
+                        {
+                            Amount = debt.Amount - restOfAmount,
+                            Description = debt.Description.Contains("(rest)") ? debt.Description : $"{debt.Description} (rest)"
+                        };
                     }
+                    debt.IsRepaid = true;
                 }
 
                 updatedDebts.Add(debt);
             }
-            return updatedDebts;
-        }
-
-        private double CalculateTotalDebt(IEnumerable<Debt> debts)
-        {
-            if (debts is null || !debts.Any())
+            if (restDebt != null)
             {
-                return default;
+                updatedDebts.Add(restDebt);
             }
-            double totalDebt = debts
-                     .Where(x => !x.IsRepaid)
-                     .Select(x => x.Amount)
-                     .Sum();
-            return Math.Round(totalDebt, 2);
+            return updatedDebts;
         }
     }
 }

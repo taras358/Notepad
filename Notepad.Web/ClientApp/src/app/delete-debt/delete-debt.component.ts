@@ -26,6 +26,7 @@ export class DeleteDebtComponent implements OnInit {
       .subscribe(debtor => {
         if (debtor) {
           this.debtorId = debtor.id;
+          this.navbarService.updateLinks();
         }
       });
 

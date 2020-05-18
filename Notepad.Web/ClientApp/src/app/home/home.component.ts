@@ -117,6 +117,7 @@ export class HomeComponent implements OnInit {
   }
 
   public onEditDebtorClick(debtor: Debtor) {
+    event.stopPropagation();
     if (debtor) {
 
     }
@@ -128,6 +129,7 @@ export class HomeComponent implements OnInit {
         .subscribe(() => {
           const index = this.filtered.findIndex(x => x.id === debtor.id);
           this.filtered.splice(index, 1);
+          this.navbarService.removeDebtor();
         });
     }
   }

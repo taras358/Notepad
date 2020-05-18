@@ -6,6 +6,7 @@ using Notepad.Core.Interfaces.Repositories;
 using Notepad.Core.Interfaces.Services;
 using Notepad.Core.Models.Requests;
 using Notepad.Core.Models.Responses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,6 +24,20 @@ namespace Notepad.Core.Services
             _deptorRepository = deptorRepository;
             _mapper = mapper;
         }
+
+        private double CalculateTotalDebt(IEnumerable<Debt> debts)
+        {
+            if (debts is null || !debts.Any())
+            {
+                return default;
+            }
+            double totalDebt = debts
+                     .Where(x => !x.IsRepaid)
+                     .Select(x => x.Amount)
+                     .Sum();
+            return totalDebt;
+        }
+
         public async Task<string> Create(CreateDebtorRequest request)
         {
             string fullName = $"{request.Name} {request.Surname}";
@@ -39,7 +54,7 @@ namespace Notepad.Core.Services
         public async Task Delete(string debtorId)
         {
             Debtor debtor = await _deptorRepository.GetById(debtorId);
-            if(debtor is null) 
+            if (debtor is null)
             {
                 throw new AppCustomException(StatusCodes.Status400BadRequest, "Debtor does not exists");
             }
@@ -56,16 +71,33 @@ namespace Notepad.Core.Services
 
         public async Task<DebtorsResponse> GetAll()
         {
-            List<Debtor> debtors = await _deptorRepository.GetAll();
+            List<Debtor> debtors = await _deptorRepository.GetAllWithAllIncludes();
             DebtorsResponse debtorsResponse = _mapper.Map<List<Debtor>, DebtorsResponse>(debtors);
-
+            foreach (var debtor in debtors)
+            {
+                DebtorResponse debtorResponse = debtorsResponse.Debtors.Find(x => x.Id == debtor.Id);
+                debtorResponse.TotalDebt = CalculateTotalDebt(debtor.Debts);
+                debtorResponse.Debts = debtorResponse.Debts
+                           .OrderBy(x => x.IsRepaid)
+                           .ThenByDescending(x => x.CreationDate)
+                           .ToList();
+            }
             return debtorsResponse;
         }
 
         public async Task<DebtorResponse> GetById(string debtorId)
         {
             Debtor debtor = await _deptorRepository.GetByIdWithIncludes(debtorId);
+            if(debtor is null)
+            {
+                throw new AppCustomException(StatusCodes.Status400BadRequest, "Debtor does not exists");
+            }
             DebtorResponse debtorResponse = _mapper.Map<Debtor, DebtorResponse>(debtor);
+            debtorResponse.TotalDebt = CalculateTotalDebt(debtor.Debts);
+            debtorResponse.Debts = debtorResponse.Debts
+                            .OrderBy(x => x.IsRepaid)
+                            .ThenByDescending(x => x.CreationDate)
+                            .ToList();
             return debtorResponse;
         }
 

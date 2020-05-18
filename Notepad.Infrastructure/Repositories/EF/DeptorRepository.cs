@@ -26,14 +26,14 @@ namespace Notepad.Infrastructure.Repositories.EF
         {
             return await _dbSet
                    .Where(x => x.Id == id)
-                   .Include(x => x.Depts)
+                   .Include(x => x.Debts)
                    .FirstOrDefaultAsync();
         }
         public async Task<Debtor> GetByIdWithAllIncludes(string id)
         {
             return await _dbSet
                    .Where(x => x.Id == id)
-                   .Include(x => x.Depts)
+                   .Include(x => x.Debts)
                    .IgnoreQueryFilters()
                    .FirstOrDefaultAsync();
         }
@@ -41,13 +41,13 @@ namespace Notepad.Infrastructure.Repositories.EF
         public async Task<List<Debtor>> GetAllWithIncludes()
         {
             return await _dbSet
-                    .Include(x => x.Depts)
+                    .Include(x => x.Debts)
                     .ToListAsync();
         }
         public async Task<List<Debtor>> GetAllWithAllIncludes()
         {
             return await _dbSet
-                    .Include(x => x.Depts)
+                    .Include(x => x.Debts)
                     .IgnoreQueryFilters()
                     .ToListAsync();
         }

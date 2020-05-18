@@ -8,5 +8,6 @@ namespace Notepad.Core.Models.Responses
         public DateTimeOffset CreationDate { get; set; }        
         public double Amount { get; set; }
         public string Description{ get; set; }
+        public bool IsRepaid { get; set; }
     }
 }

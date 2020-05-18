@@ -20,7 +20,7 @@ namespace Notepad.Infrastructure.Helpers
                 .ForMember(des => des.Id, src => src.MapFrom(x => x.ProfileId));
 
             CreateMap<Debtor, DebtorResponse>()
-                .ForMember(des => des.Debts, src => src.MapFrom(x => x.Depts));
+                .ForMember(des => des.Debts, src => src.MapFrom(x => x.Debts));
             CreateMap<CreateDebtorRequest, Debtor>()
                 .ForMember(des => des.FullName, src => src.MapFrom(x => $"{x.Name} {x.Surname}"));
             CreateMap<UpdateDebtorRequest, Debtor>()

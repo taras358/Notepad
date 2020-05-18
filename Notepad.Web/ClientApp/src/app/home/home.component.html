@@ -8,17 +8,8 @@
 
   <div *ngIf="isAddDebtorFormActive">
     <form class="add-form" [formGroup]="createDeptorFrom">
-      <input 
-      class="add-form_input_name" 
-      type="text" 
-      formControlName="name"
-      placeholder="Enter Name"
-      >
-      <input 
-      class="add-form_input_surname" 
-      type="text" 
-      formControlName="surname"
-      placeholder="Enter Surname">
+      <input class="add-form_input_name" type="text" formControlName="name" placeholder="Enter Name">
+      <input class="add-form_input_surname" type="text" formControlName="surname" placeholder="Enter Surname">
       <button type="submit" (click)='onAddDebtorClick()'><i class="icon-add-sign"></i></button>
     </form>
   </div>
@@ -30,7 +21,6 @@
           <th>Name</th>
           <th>Surname</th>
           <th>Total Debt</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -38,7 +28,8 @@
           <td>{{debtor.name}}</td>
           <td>{{debtor.surname}}</td>
           <td>{{debtor.totalDebt}}</td>
-          <td (click)="onDeleteDebtorClick(debtor, $event)">x</td>
+          <td (click)="onDeleteDebtorClick(debtor, $event)"><i class="icon-delete-v2"></i></td>
+          <td (click)="onEditDebtorClick(debtor, $event)"><i class="icon-edit-sign"></i></td>
         </tr>
       </tbody>
     </table>

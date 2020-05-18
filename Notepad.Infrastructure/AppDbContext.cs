@@ -17,11 +17,8 @@ namespace Notepad.Infrastructure
             builder.Entity<UserProfile>()
                 .HasOne(x => x.User);
 
-            builder.Entity<Debt>()
-                .HasQueryFilter(c => !c.IsRepaid);
-
             builder.Entity<Debtor>()
-                .HasMany<Debt>(x => x.Depts)
+                .HasMany<Debt>(x => x.Debts)
                 .WithOne(x => x.Debtor)
                 .OnDelete(DeleteBehavior.Cascade);
         }

@@ -10,6 +10,7 @@ import { AppRoutingModule  } from './app-routing.module';
 import { DebtorHistoryComponent } from './debtor-history/debtor-history.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { DeleteDebtComponent } from './delete-debt/delete-debt.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
    declarations: [
@@ -25,7 +26,8 @@ import { DeleteDebtComponent } from './delete-debt/delete-debt.component';
       FormsModule,
       ReactiveFormsModule,
       AppRoutingModule,
-      BrowserModule
+      BrowserModule,
+      CommonModule
    ],
    entryComponents: [
       AddDebtComponent,

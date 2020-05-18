@@ -13,8 +13,6 @@ namespace Notepad.Core.Entities
         [MaxLength(100)]
         public string FullName { get; set; }
 
-        public double TotalDebt { get;  set; }
-
-        public virtual ICollection<Debt> Depts { get; set; }
+        public virtual ICollection<Debt> Debts { get; set; }
     }
 }

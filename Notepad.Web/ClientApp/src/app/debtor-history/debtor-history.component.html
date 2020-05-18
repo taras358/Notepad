@@ -1,5 +1,4 @@
-
-<div *ngIf="debtor">
+<div *ngIf="debtor" class="container">
   <h3>{{debtor.name}} {{debtor.surname}}</h3>
   <table class="table-container">
     <thead>
@@ -7,10 +6,10 @@
         <th>Date</th>
         <th>Amount</th>
         <th>Description</th>
-      </tr>    
+      </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let debt of debtor.debts">
+      <tr *ngFor="let debt of debtor.debts" [ngClass]="{'strike-text': debt.isRepaid}">
         <td>{{debt.creationDate | date:'shortDate' }}</td>
         <td>{{debt.amount}}</td>
         <td>{{debt.description}}</td>

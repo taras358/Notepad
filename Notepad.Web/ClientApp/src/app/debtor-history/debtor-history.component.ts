@@ -26,6 +26,7 @@ export class DebtorHistoryComponent implements OnInit {
         if (debtor) {
           this.debtorId = debtor.id;
           this.getDebtorHistory();
+          this.navbarService.updateLinks();
         }
       });
   }
@@ -43,7 +44,8 @@ export class DebtorHistoryComponent implements OnInit {
                 id: x.id,
                 amount: x.amount,
                 creationDate: x.creationDate,
-                description: x.description
+                description: x.description,
+                isRepaid: x.isRepaid
               } as Debt;
             })
           } as Debtor;

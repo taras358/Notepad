@@ -13,7 +13,7 @@ import { Debtor } from '../shared/models/deptor';
 })
 export class NavBarComponent implements OnInit {
 
-  public links: Array<{ text: string, path: string, iconClass: string}>;
+  public links: Array<{ text: string, path: string, iconClass: string }>;
   public currenctDebtor: Debtor;
 
   constructor(private router: Router,
@@ -35,5 +35,8 @@ export class NavBarComponent implements OnInit {
     this.navbarService.removeDebtor();
     this.links = this.navbarService.getLinks();
     this.router.navigate(['home']);
+  }
+  public onNavigateClick(link) {
+    this.router.navigate([link.path]);
   }
 }

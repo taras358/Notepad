@@ -6,7 +6,6 @@ import { Debtor } from '../models/deptor';
     providedIn: 'root'
 })
 export class NavbarService {
-
     private links = new Array<{ text: string, path: string, iconClass: string }>();
     private isDebtorSelected = new Subject<boolean>();
 
@@ -52,4 +51,7 @@ export class NavbarService {
     private clearAllItems() {
         this.links.length = 0;
     }
+    public updateLinks() {
+        this.updateNavAfterDebtorSelect();
+      }
 }
