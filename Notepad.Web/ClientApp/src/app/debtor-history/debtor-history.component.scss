@@ -1,6 +1,50 @@
+
+
 .table-container {
     width: 100%;
+    margin: 7px 0 0 0;
+    th {
+        padding: 0 5px ;
+        color: #495057;
+        background-color: #e9ecef;
+        border-color: #dee2e6;
+        font-style: normal;
+        font-weight: 400;
+        border-right: 1px solid #dee2e6;
+        width: 33%;
+    }
+    td {
+      padding: 0 5px;
+      border-bottom: 1px solid #dee2e6;
+      border: 1px solid #dee2e6;
+      width: 33%;
+    }
 }
 .strike-text {
     text-decoration: line-through;
   }
+
+.title {
+    margin-top: 8px;
+    display: flex;
+    position: relative;
+    span {
+      border: none;
+      width: 100%;
+      border-radius: 10px;
+      font-weight: bold;
+      text-align: center;
+      // background: #e9ecef;
+      padding: 5px 5px 5px 10px;
+      outline: none;
+    }
+    &:after {
+      content: '';
+      border-bottom: solid 1px #e9ecef;
+      position: absolute;
+      width: 100%;
+      left: 0;
+      bottom: -7px;
+      z-index: 1;
+    }
+}

@@ -1,11 +1,6 @@
 <div class="navbar-container">
   <div class="navbar-menu">
     <div class="top-item">
-      <div class="navbar-item">
-        <a class="" routerLink="home">
-          <i class="icon-search"></i>
-        </a>
-      </div>
       <div class="navbar-item" *ngFor="let link of links" (click)="onNavigateClick(link)">
         <a class="">
           <i class="{{link.iconClass}}"></i>

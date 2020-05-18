@@ -7,5 +7,6 @@ namespace Notepad.Core.Interfaces.Services
     {
         Task Create(CreateDebtRequest request);
         Task Delete(DeleteDebtRequest request);
+        Task Update(UpdateDebtRequest request);
     }
 }

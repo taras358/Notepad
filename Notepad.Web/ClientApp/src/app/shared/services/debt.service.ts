@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { CreateDebtRequest } from '../models/create-debt-request';
 import { Observable } from 'rxjs';
 import { DeleteDebtRequest } from '../models/delete-debt-request';
+import { UpdateDebtRequest } from '../models/update-debt-request';
 
 @Injectable({
     providedIn: 'root'
@@ -27,5 +28,11 @@ export class DebtService {
         const headers = new HttpHeaders()
                             .set('Content-Type', 'application/json; charset=utf-8');
         return this.http.post<DeleteDebtRequest>(this.apiUrl + 'api/debt/delete', body, { headers: headers, responseType: 'json' });
+    }
+    public updateDebt(debt: UpdateDebtRequest ): Observable<UpdateDebtRequest> {
+        const body = JSON.stringify(debt);
+        const headers = new HttpHeaders()
+                            .set('Content-Type', 'application/json; charset=utf-8');
+        return this.http.patch<UpdateDebtRequest>(this.apiUrl + 'api/debt/update', body, { headers: headers, responseType: 'json' });
     }
 }

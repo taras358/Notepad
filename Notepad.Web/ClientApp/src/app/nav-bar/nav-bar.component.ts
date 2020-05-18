@@ -32,6 +32,7 @@ export class NavBarComponent implements OnInit {
   }
 
   backToMain() {
+    debugger
     this.navbarService.removeDebtor();
     this.links = this.navbarService.getLinks();
     this.router.navigate(['home']);

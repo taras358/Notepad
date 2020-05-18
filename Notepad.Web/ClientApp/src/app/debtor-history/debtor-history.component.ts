@@ -5,6 +5,8 @@ import { DebtorResponse } from '../shared/models/debtor-response.model';
 import { Debtor } from '../shared/models/deptor';
 import { Debt } from '../shared/models/debt';
 import { NavbarService } from '../shared/services/nav-bar.service';
+import { UpdateDebtRequest } from '../shared/models/update-debt-request';
+import { DebtService } from '../shared/services/debt.service';
 
 @Component({
   selector: 'app-debtor-history',
@@ -18,6 +20,7 @@ export class DebtorHistoryComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private debtorService: DebtorService,
+    private debtService: DebtService,
     private navbarService: NavbarService) { }
 
   ngOnInit() {
@@ -29,6 +32,25 @@ export class DebtorHistoryComponent implements OnInit {
           this.navbarService.updateLinks();
         }
       });
+  }
+
+  public onDebtChancheClick(debt: Debt) {
+    debugger
+    if (debt) {
+      const updateDebtRequest = {
+        id: debt.id,
+        creationDate: debt.creationDate,
+        debtorId: this.debtorId,
+        description: debt.description,
+        amount: debt.amount,
+        isRepaid: !debt.isRepaid
+      } as UpdateDebtRequest;
+      this.debtService.updateDebt(updateDebtRequest)
+        .subscribe(response => {
+          debt.isRepaid = !debt.isRepaid;
+          this.getDebtorHistory();
+        });
+    }
   }
 
   public getDebtorHistory(): void {

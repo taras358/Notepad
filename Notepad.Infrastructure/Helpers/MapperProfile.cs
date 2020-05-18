@@ -27,6 +27,8 @@ namespace Notepad.Infrastructure.Helpers
                 .ForMember(des => des.FullName, src => src.MapFrom(x => $"{x.Name} {x.Surname}"));
 
             CreateMap<Debt, DebtResponse>();
+            CreateMap<UpdateUserRequest, Debt>();
+            CreateMap<UpdateDebtRequest, Debt>();
             CreateMap<CreateDebtRequest, Debt>();
             CreateMap<List<Debtor>, DebtorsResponse>()
                 .ForMember(des => des.Debtors, src => src.MapFrom(x => x));

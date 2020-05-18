@@ -50,6 +50,7 @@ export class NavbarService {
 
     private clearAllItems() {
         this.links.length = 0;
+        this.addItem({ text: 'Home', path: 'home', iconClass: 'icon-search' });
     }
     public updateLinks() {
         this.updateNavAfterDebtorSelect();

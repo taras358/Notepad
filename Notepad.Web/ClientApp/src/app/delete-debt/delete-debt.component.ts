@@ -5,6 +5,7 @@ import { DebtService } from '../shared/services/debt.service';
 import { CreateDebtRequest } from '../shared/models/create-debt-request';
 import { DeleteDebtRequest } from '../shared/models/delete-debt-request';
 import { NavbarService } from '../shared/services/nav-bar.service';
+import { Debtor } from '../shared/models/deptor';
 
 @Component({
   selector: 'app-delete-debt',
@@ -15,6 +16,7 @@ export class DeleteDebtComponent implements OnInit {
 
   public deleteDebtGroup: FormGroup;
   public debtorId: string;
+  public debtor: Debtor;
 
   constructor(private route: ActivatedRoute,
     private debtService: DebtService,
@@ -25,13 +27,14 @@ export class DeleteDebtComponent implements OnInit {
     this.navbarService.getDebtor()
       .subscribe(debtor => {
         if (debtor) {
+          this.debtor = debtor;
           this.debtorId = debtor.id;
           this.navbarService.updateLinks();
         }
       });
 
     this.deleteDebtGroup = new FormGroup({
-      amount: new FormControl(0, Validators.required)
+      amount: new FormControl(null, Validators.required)
     });
   }
 

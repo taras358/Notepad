@@ -50,6 +50,17 @@ namespace Notepad.Core.Services
             await _debtorRepository.Update(debtor);
         }
 
+        public async Task Update(UpdateDebtRequest request)
+        {
+            Debtor debtor = await _debtorRepository.GetById(request.DebtorId);
+            if (debtor is null)
+            {
+                throw new AppCustomException(StatusCodes.Status400BadRequest, "Debtor does not exist");
+            }
+            Debt debt = _mapper.Map<UpdateDebtRequest, Debt>(request);
+            await _debtRepository.Update(debt);
+        }
+
         private List<Debt> DeleteDebt(IEnumerable<Debt> debts, double amount)
         {
             double restOfAmount = amount;
