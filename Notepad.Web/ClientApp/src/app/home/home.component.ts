@@ -7,6 +7,8 @@ import { Debtor } from '../shared/models/deptor';
 import { Router } from '@angular/router';
 import { NavbarService } from '../shared/services/nav-bar.service';
 import { Observable } from 'rxjs';
+import { UpdateDebtRequest } from '../shared/models/update-debt-request';
+import { UpdateDebtorRequest } from '../shared/models/update-debtor-request';
 
 @Component({
   selector: 'app-home',
@@ -47,6 +49,9 @@ export class HomeComponent implements OnInit {
 
   public onDebtorClick(debtor: Debtor) {
     if (debtor) {
+      if (debtor.isEdited) {
+        return;
+      }
       this.navbarService.setDebtor(debtor);
       this.router.navigate(['/history']);
     }
@@ -78,10 +83,21 @@ export class HomeComponent implements OnInit {
             id: x.id,
             name: x.name,
             surname: x.surname,
-            totalDebt: x.totalDebt
+            totalDebt: x.totalDebt,
+            isEdited: false
           } as Debtor;
         });
+        this.initFormGroup(this.filtered);
       });
+  }
+  private initFormGroup(debtors: Debtor[]) {
+    if (debtors) {
+      this.editDeptorFrom = new FormGroup({});
+      debtors.forEach(debtor => {
+        this.editDeptorFrom.addControl(`name${debtor.id}`, new FormControl('', Validators.required))
+        this.editDeptorFrom.addControl(`surname${debtor.id}`, new FormControl('', Validators.required))
+      });
+    }
   }
 
   private findDebtors(query: string): void {
@@ -115,11 +131,33 @@ export class HomeComponent implements OnInit {
       }
     }
   }
+  private initEditDebtorForm(debtor: Debtor) {
+    if (debtor) {
+      this.editDeptorFrom.get(`name${debtor.id}`).setValue(debtor.name);
+      this.editDeptorFrom.get(`surname${debtor.id}`).setValue(debtor.surname);
+    }
+  }
 
   public onEditDebtorClick(debtor: Debtor) {
+    debugger
     event.stopPropagation();
-    if (debtor) {
-
+    if (debtor.isEdited) {
+      const newName = this.editDeptorFrom.get(`name${debtor.id}`).value;
+      const newSurname = this.editDeptorFrom.get(`surname${debtor.id}`).value;
+      const updatedDebtor = {
+        id: debtor.id,
+        name: newName,
+        surname: newSurname
+      } as UpdateDebtorRequest;
+      this.debtorServise.updateDebtor(updatedDebtor)
+        .subscribe(response => {
+          debtor.name = newName;
+          debtor.surname = newSurname;
+          debtor.isEdited = !debtor.isEdited;
+        });
+    } else {
+      this.initEditDebtorForm(debtor);
+      debtor.isEdited = !debtor.isEdited;
     }
   }
   public onDeleteDebtorClick(debtor: Debtor, event) {

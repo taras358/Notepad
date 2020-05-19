@@ -35,7 +35,6 @@ export class DebtorHistoryComponent implements OnInit {
   }
 
   public onDebtChancheClick(debt: Debt) {
-    debugger
     if (debt) {
       const updateDebtRequest = {
         id: debt.id,

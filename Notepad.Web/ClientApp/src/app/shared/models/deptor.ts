@@ -6,4 +6,5 @@ export interface Debtor {
   name?: null | string;
   surname?: null | string;
   totalDebt?: number;
+  isEdited: boolean;
 }

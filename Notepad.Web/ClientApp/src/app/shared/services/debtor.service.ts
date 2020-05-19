@@ -5,12 +5,12 @@ import { DebtorsResponse } from '../models/deptors-response.model';
 import { Observable } from 'rxjs';
 import { DebtorRequest as CreateDebtorRequest } from '../models/debtor-request.model';
 import { DebtorResponse } from '../models/debtor-response.model';
+import { UpdateDebtorRequest } from '../models/update-debtor-request';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DebtorService {
-
     private readonly apiUrl: string;
     constructor(private http: HttpClient) {
         this.apiUrl = environment.apiURL;
@@ -42,5 +42,11 @@ export class DebtorService {
         return this.http.delete<void>(this.apiUrl + 'api/debtor/delete', {
             params: params
         });
+    }
+    public updateDebtor(updatedDebtor: UpdateDebtorRequest): Observable<void> {
+        const body = JSON.stringify(updatedDebtor);
+        const headers = new HttpHeaders()
+            .set('Content-Type', 'application/json; charset=utf-8');
+        return this.http.patch<void>(this.apiUrl + 'api/debtor/update', body, { headers: headers, responseType: 'json' });
     }
 }

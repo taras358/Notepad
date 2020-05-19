@@ -103,13 +103,14 @@ namespace Notepad.Core.Services
 
         public async Task<string> Update(UpdateDebtorRequest request)
         {
-            string fullName = $"{request.Name} {request.Surname}";
-            Debtor debtor = await _deptorRepository.GetByFullName(fullName);
+            Debtor debtor = await _deptorRepository.GetById(request.Id);
             if (debtor is null)
             {
                 throw new AppCustomException(StatusCodes.Status400BadRequest, "Debtor does not exists");
             }
-            debtor = _mapper.Map<UpdateDebtorRequest, Debtor>(request);
+            debtor.Name = request.Name;
+            debtor.Surname = request.Surname;
+
             await _deptorRepository.Update(debtor);
             return debtor.Id;
         }

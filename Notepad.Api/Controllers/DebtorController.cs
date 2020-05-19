@@ -62,7 +62,7 @@ namespace Notepad.Api.Controllers
             return Ok(id);
         }
 
-        [HttpPost("update")]
+        [HttpPatch("update")]
         [Produces("application/json")]
         public async Task<IActionResult> Update([FromBody]UpdateDebtorRequest request)
         {

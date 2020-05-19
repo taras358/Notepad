@@ -2,7 +2,7 @@
 .debtor-row {
     &:hover {
         cursor: pointer;
-        background: #dddddd
+        background: #e9ecef
     }
 }
 .search-form {
@@ -39,6 +39,25 @@
     margin-top: 15px;
     .table-container {
         width: 100%;
+        th {
+            padding: 5px 5px 5px 10px;
+        }
+        .pading-shift {
+            padding: 5px 5px 5px 10px;
+        }
+        td {
+            width: 30%;
+            span {
+                padding: 5px 5px 5px 10px;
+            }
+        }
+        .controls-contaiter {
+            display: flex;
+            justify-content: space-between;
+            &.item {
+                padding: 0 7px;
+            }
+        }
     }
 }
 .add-form {
@@ -68,12 +87,26 @@
     button {
         border: none;
         background: #e9ecef;
-        padding: 5px 5px 5px 10px;
+        padding: 5px 0;
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
         outline: none;
         position: absolute;
         top: 0;
         right: 0;
+    }
+}
+
+.edit-debtor-row {
+    .edit-form-input {
+        background: #e9ecef;
+        border: none;
+        border-radius: 10px;
+        padding: 0 0 0 10px;
+        outline: none;
+        &:hover{
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            transition: .5s;
+        }
     }
 }
