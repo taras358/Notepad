@@ -5,6 +5,7 @@ import { CreateDebtRequest } from '../shared/models/create-debt-request';
 import { DebtService } from '../shared/services/debt.service';
 import { NavbarService } from '../shared/services/nav-bar.service';
 import { Debtor } from '../shared/models/deptor';
+import { DebtorService } from '../shared/services/debtor.service';
 
 @Component({
   selector: 'app-add-debt',
@@ -20,17 +21,16 @@ export class AddDebtComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private debtService: DebtService,
     private router: Router,
-    private navbarService: NavbarService) { }
+    private navbarService: NavbarService,
+    private debtorService: DebtorService) { }
 
   ngOnInit() {
-    this.navbarService.getDebtor()
-      .subscribe(debtor => {
-        if (debtor) {
-          this.debtor = debtor;
-          this.debtorId = debtor.id;
-          this.navbarService.updateLinks();
-        }
-      });
+    const debtor = this.debtorService.getCurrentDebtor();
+    if (debtor) {
+      this.debtor = debtor;
+      this.debtorId = debtor.id;
+    }
+    this.navbarService.updateLinks();
 
     this.addDebtGroup = new FormGroup({
       amount: new FormControl(null, Validators.required),

@@ -29,11 +29,12 @@ export class HomeComponent implements OnInit {
   public serachDeptorForm: FormGroup;
 
   ngOnInit() {
+    debugger
     this.deptors = [];
     this.filtered = [];
     this.isAddDebtorFormActive = false;
     this.getGebtors();
-
+    this.navbarService.updateLinks();
     this.createDeptorFrom = new FormGroup({
       name: new FormControl('', Validators.required),
       surname: new FormControl('', Validators.required)
@@ -52,7 +53,7 @@ export class HomeComponent implements OnInit {
       if (debtor.isEdited) {
         return;
       }
-      this.navbarService.setDebtor(debtor);
+      this.debtorServise.setDebtor(debtor);
       this.router.navigate(['/history']);
     }
   }
@@ -167,7 +168,7 @@ export class HomeComponent implements OnInit {
         .subscribe(() => {
           const index = this.filtered.findIndex(x => x.id === debtor.id);
           this.filtered.splice(index, 1);
-          this.navbarService.removeDebtor();
+          this.debtorServise.removeDebtor();
         });
     }
   }

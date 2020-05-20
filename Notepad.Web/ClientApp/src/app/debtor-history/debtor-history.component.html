@@ -14,9 +14,9 @@
     <tbody>
       <tr *ngFor="let debt of debtor.debts" [ngClass]="{'strike-text': debt.isRepaid}">
         <td>{{debt.creationDate | date:'short' }}</td>
-        <td>{{debt.amount}}</td>
+        <td>{{debt.amount | number:'1.1-2'}}</td>
         <td>{{debt.description}}</td>
-        <td (click)="onDebtChancheClick(debt)">
+        <td class="clickable" (click)="onDebtChancheClick(debt)">
           <i [ngClass]="{'icon-return-debt': debt.isRepaid,'icon-delete-debt': !debt.isRepaid }"> </i>
         </td>
       </tr>

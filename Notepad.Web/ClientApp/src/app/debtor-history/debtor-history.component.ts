@@ -16,7 +16,6 @@ import { DebtService } from '../shared/services/debt.service';
 export class DebtorHistoryComponent implements OnInit {
 
   public debtor: Debtor;
-  public debtorId: string;
 
   constructor(private route: ActivatedRoute,
     private debtorService: DebtorService,
@@ -24,14 +23,12 @@ export class DebtorHistoryComponent implements OnInit {
     private navbarService: NavbarService) { }
 
   ngOnInit() {
-    this.navbarService.getDebtor()
-      .subscribe(debtor => {
-        if (debtor) {
-          this.debtorId = debtor.id;
-          this.getDebtorHistory();
-          this.navbarService.updateLinks();
-        }
-      });
+    debugger
+    this.debtor = this.debtorService.getCurrentDebtor();
+    if (this.debtor) {
+      this.getDebtorHistory();
+    }
+    this.navbarService.updateLinks();
   }
 
   public onDebtChancheClick(debt: Debt) {
@@ -39,7 +36,7 @@ export class DebtorHistoryComponent implements OnInit {
       const updateDebtRequest = {
         id: debt.id,
         creationDate: debt.creationDate,
-        debtorId: this.debtorId,
+        debtorId: this.debtor.id,
         description: debt.description,
         amount: debt.amount,
         isRepaid: !debt.isRepaid
@@ -53,7 +50,7 @@ export class DebtorHistoryComponent implements OnInit {
   }
 
   public getDebtorHistory(): void {
-    this.debtorService.getGebtor(this.debtorId)
+    this.debtorService.getGebtor(this.debtor.id)
       .subscribe((response: DebtorResponse) => {
         if (response) {
           this.debtor = {

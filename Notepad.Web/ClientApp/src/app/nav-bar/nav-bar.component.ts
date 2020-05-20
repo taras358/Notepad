@@ -5,6 +5,7 @@ import { DebtorHistoryComponent } from '../debtor-history/debtor-history.compone
 import { AddDebtComponent } from '../add-debt/add-debt.component';
 import { DeleteDebtComponent } from '../delete-debt/delete-debt.component';
 import { Debtor } from '../shared/models/deptor';
+import { DebtorService } from '../shared/services/debtor.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -17,23 +18,19 @@ export class NavBarComponent implements OnInit {
   public currenctDebtor: Debtor;
 
   constructor(private router: Router,
-    private navbarService: NavbarService) {
-    this.router.config.unshift(
-      { path: 'history', component: DebtorHistoryComponent },
-      { path: 'add-debt', component: AddDebtComponent },
-      { path: 'delete-debt', component: DeleteDebtComponent },
-    );
-  }
+    private navbarService: NavbarService,
+    private debtorService: DebtorService) {  }
 
   ngOnInit() {
+    // this.currenctDebtor = this.debtorService.getCurrentDebtor();
+    
     this.links = this.navbarService.getLinks();
-    this.navbarService.getDebtor()
-      .subscribe(debtor => this.currenctDebtor = debtor);
+
   }
 
   backToMain() {
     debugger
-    this.navbarService.removeDebtor();
+    this.debtorService.removeDebtor();
     this.links = this.navbarService.getLinks();
     this.router.navigate(['home']);
   }

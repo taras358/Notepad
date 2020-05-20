@@ -34,7 +34,7 @@
             <span class="" *ngIf="!debtor.isEdited">{{debtor.surname}}</span>
             <input *ngIf="debtor.isEdited" type="text" formControlName="surname{{debtor.id}}" class="edit-form-input">
           </td>
-          <td class="pading-shift">{{debtor.totalDebt}}</td>
+          <td class="pading-shift">{{debtor.totalDebt | number:'1.1-2'}}</td>
           <td>
             <div class="controls-contaiter">
               <div class="controls-contaiter_item" (click)="onEditDebtorClick(debtor, $event)"><i class="icon-edit-sign">i</i></div>

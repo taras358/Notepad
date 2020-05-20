@@ -11,6 +11,7 @@ import { DebtorHistoryComponent } from './debtor-history/debtor-history.componen
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { DeleteDebtComponent } from './delete-debt/delete-debt.component';
 import { CommonModule } from '@angular/common';
+import { CanActivateDebtor } from './shared/guards/can-activete-debtor.guard';
 
 @NgModule({
    declarations: [
@@ -34,7 +35,9 @@ import { CommonModule } from '@angular/common';
       DebtorHistoryComponent,
       DeleteDebtComponent
    ],
-   providers: [],
+   providers: [
+      CanActivateDebtor
+   ],
    bootstrap: [
       AppComponent
    ]

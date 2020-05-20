@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { DebtorRequest as CreateDebtorRequest } from '../models/debtor-request.model';
 import { DebtorResponse } from '../models/debtor-response.model';
 import { UpdateDebtorRequest } from '../models/update-debtor-request';
+import { Debtor } from '../models/deptor';
 
 @Injectable({
     providedIn: 'root'
@@ -14,6 +15,24 @@ export class DebtorService {
     private readonly apiUrl: string;
     constructor(private http: HttpClient) {
         this.apiUrl = environment.apiURL;
+    }
+
+    public setDebtor(debtor: Debtor) {
+        localStorage.setItem('debtor', JSON.stringify(debtor));
+    }
+
+    public removeDebtor() {
+        localStorage.removeItem('debtor');
+    }
+
+    public getCurrentDebtor(): Debtor {
+        const debtor = localStorage.getItem('debtor');
+        return debtor ? JSON.parse(debtor) as Debtor : null;
+    }
+
+    public isDebtorExist(): boolean {
+        const debtor = localStorage.getItem('debtor');
+        return debtor ? true : false;
     }
 
     public findDebtors(query: string): Observable<DebtorsResponse> {

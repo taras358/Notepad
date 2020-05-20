@@ -87,8 +87,10 @@ namespace Notepad.Core.Services
                         restDebt = new Debt
                         {
                             Amount = debt.Amount - restOfAmount,
-                            Description = debt.Description.Contains("(rest)") ? debt.Description : $"{debt.Description} (rest)"
+                            Description = debt.Description.Contains("(rest)") ? debt.Description : $"{debt.Description} (rest)",
+                            CreationDate = debt.CreationDate
                         };
+                        restOfAmount = 0;
                     }
                     debt.IsRepaid = true;
                 }

@@ -102,10 +102,10 @@
         background: #e9ecef;
         border: none;
         border-radius: 10px;
-        padding: 0 0 0 10px;
+        padding: 0 10px;
         outline: none;
-        &:hover{
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        &:focus{
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
             transition: .5s;
         }
     }
