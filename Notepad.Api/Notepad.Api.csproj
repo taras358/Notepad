@@ -5,6 +5,34 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Content Remove="ClientApp\angular.json" />
+      <Content Remove="ClientApp\e2e\tsconfig.e2e.json" />
+      <Content Remove="ClientApp\package-lock.json" />
+      <Content Remove="ClientApp\package.json" />
+      <Content Remove="ClientApp\src\tsconfig.app.json" />
+      <Content Remove="ClientApp\src\tsconfig.server.json" />
+      <Content Remove="ClientApp\src\tsconfig.spec.json" />
+      <Content Remove="ClientApp\src\tslint.json" />
+      <Content Remove="ClientApp\tsconfig.json" />
+      <Content Remove="ClientApp\tslint.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="ClientApp\angular.json" />
+      <None Include="ClientApp\e2e\tsconfig.e2e.json" />
+      <None Include="ClientApp\package-lock.json" />
+      <None Include="ClientApp\package.json" />
+      <None Include="ClientApp\src\tsconfig.app.json" />
+      <None Include="ClientApp\src\tsconfig.server.json" />
+      <None Include="ClientApp\src\tsconfig.spec.json" />
+      <None Include="ClientApp\src\tslint.json" />
+      <None Include="ClientApp\tsconfig.json" />
+      <None Include="ClientApp\tslint.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.4" />
+      <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.4" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.3">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

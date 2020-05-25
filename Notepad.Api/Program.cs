@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Notepad.Api
+namespace Notepad.Web
 {
     public class Program
     {

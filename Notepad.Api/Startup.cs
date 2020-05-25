@@ -1,12 +1,13 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Notepad.Api.Middlewares;
+using Notepad.Web.Middlewares;
 using Notepad.Core.Constants;
 using Notepad.Infrastructure.Extentions;
 using Notepad.Infrastructure.Helpers;
@@ -14,7 +15,7 @@ using Notepad.Infrastructure.Options;
 using System;
 using System.Linq;
 
-namespace Notepad.Api
+namespace Notepad.Web
 {
     public class Startup
     {
@@ -44,6 +45,11 @@ namespace Notepad.Api
             ConfigureCors(services, Configuration);
             services.AddAuthOptions(Configuration.GetSection("AuthTokenOption:JwtKey").Value);
             services.AddControllers();
+
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
@@ -68,6 +74,17 @@ namespace Notepad.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+            app.UseStaticFiles();
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "wwwroot";
+#if DEBUG
+                if (env.IsDevelopment())
+                {
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+                }
+#endif
             });
         }
 

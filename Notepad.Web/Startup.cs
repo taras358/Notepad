@@ -1,10 +1,18 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using Notepad.Core.Constants;
+using Notepad.Infrastructure.Extentions;
+using Notepad.Infrastructure.Helpers;
+using Notepad.Infrastructure.Options;
+using System;
+using System.Linq;
 
 namespace Notepad.Web
 {
@@ -20,9 +28,24 @@ namespace Notepad.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddDomainDependencies();
 
-            // In production, the Angular files will be served from this directory
+            services.Configure<AuthTokenOption>(Configuration.GetSection(typeof(AuthTokenOption).Name));
+
+            services.AddCustomDbContext(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddSwaggerGen(config =>
+            {
+                config.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Notepad",
+                    Version = "v1"
+                });
+            });
+            ConfigureAutomapper(services);
+            ConfigureCors(services, Configuration);
+            services.AddAuthOptions(Configuration.GetSection("AuthTokenOption:JwtKey").Value);
+            services.AddControllers();
+
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
@@ -30,7 +53,7 @@ namespace Notepad.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -43,15 +66,20 @@ namespace Notepad.Web
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
-
-            app.UseMvc(routes =>
+            if (!env.IsDevelopment())
             {
-                routes.MapRoute(
+                app.UseSpaStaticFiles();
+            }
+
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                    pattern: "{controller}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>
@@ -65,6 +93,33 @@ namespace Notepad.Web
                 {
                     spa.UseAngularCliServer(npmScript: "start");
                 }
+            });
+        }
+
+        public static void ConfigureAutomapper(IServiceCollection services)
+        {
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AllowNullCollections = true;
+                mc.AddProfile(new MapperProfile());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+        }
+
+        private void ConfigureCors(IServiceCollection services, IConfiguration configuration)
+        {
+            IConfigurationSection corsOptions = configuration.GetSection("Cors");
+            string origins = corsOptions["Origins"];
+            services.AddCors(options =>
+            {
+                options.AddPolicy("OriginPolicy", builder =>
+                {
+                    builder.WithOrigins(origins.Split(",", StringSplitOptions.RemoveEmptyEntries).ToArray())
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials().WithExposedHeaders(ExceptionConstants.TokenExpiredHeader, ExceptionConstants.InvalidRefresh);
+                });
             });
         }
     }

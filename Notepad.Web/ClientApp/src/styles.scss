@@ -52,3 +52,27 @@
 .icon-history-plus:before {
   content: "\e903";
 }
+
+::-webkit-scrollbar {
+  height: 0.88vh;
+  width: 1.5vw;
+  cursor: pointer;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+  
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #b60e46;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #990033;
+}

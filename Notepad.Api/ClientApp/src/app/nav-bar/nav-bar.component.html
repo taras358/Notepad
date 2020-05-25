@@ -1,0 +1,18 @@
+<div class="navbar-container">
+  <div class="navbar-menu">
+    <div class="top-item">
+      <div class="navbar-item" *ngFor="let link of links" (click)="onNavigateClick(link)">
+        <a class="">
+          <i class="{{link.iconClass}}"></i>
+        </a>
+      </div>
+    </div>
+    <div class="bottom-item">
+      <div class="navbar-item" (click)="backToMain()">
+        <a class="">
+          <i class="icon-back-arrow"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

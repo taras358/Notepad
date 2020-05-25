@@ -1,0 +1,48 @@
+<div class="container">
+  <div *ngIf="!isAddDebtorFormActive">
+    <form class="search-form" [formGroup]="serachDeptorForm">
+      <input placeholder="Enter name or surname" type="text" formControlName="fullName">
+      <button type="submit" (click)='onSearchDebtorClick()'><i class="icon-search"></i></button>
+    </form>
+  </div>
+
+  <div *ngIf="isAddDebtorFormActive">
+    <form class="add-form" [formGroup]="createDeptorFrom">
+      <input class="add-form_input_name" type="text" formControlName="name" placeholder="Enter Name">
+      <input class="add-form_input_surname" type="text" formControlName="surname" placeholder="Enter Surname">
+      <button type="submit" (click)='onAddDebtorClick()'><i class="icon-add-sign"></i></button>
+    </form>
+  </div>
+
+  <div *ngIf="filtered.length > 0" class="debtors-conrainer">
+    <table class="table-container">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Surname</th>
+          <th>Total Debt</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let debtor of filtered" (click)='onDebtorClick(debtor)'
+          [ngClass]="{'debtor-row': !debtor.isEdited, 'edit-debtor-row': debtor.isEdited}" [formGroup]="editDeptorFrom">
+          <td>
+            <span *ngIf="!debtor.isEdited">{{debtor.name}}</span>
+            <input *ngIf="debtor.isEdited" type="text" formControlName="name{{debtor.id}}" class="edit-form-input">
+          </td>
+          <td>
+            <span class="" *ngIf="!debtor.isEdited">{{debtor.surname}}</span>
+            <input *ngIf="debtor.isEdited" type="text" formControlName="surname{{debtor.id}}" class="edit-form-input">
+          </td>
+          <td class="pading-shift">{{debtor.totalDebt | number:'1.1-2'}}</td>
+          <td>
+            <div class="controls-contaiter">
+              <div class="controls-contaiter_item" (click)="onEditDebtorClick(debtor, $event)"><i class="icon-edit-sign">i</i></div>
+              <div class="controls-contaiter_item" (click)="onDeleteDebtorClick(debtor, $event)"><i class="icon-tools-and-utensils">x</i></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
