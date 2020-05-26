@@ -10,6 +10,7 @@
 
     <ItemGroup>
       <PackageReference Include="AutoMapper" Version="9.0.0" />
+      <PackageReference Include="EPPlus" Version="5.1.2" />
       <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
       <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.0-preview.3.20215.14" />
       <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.5.1" />

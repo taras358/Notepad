@@ -17,6 +17,9 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AreYouSureDialogComponent } from './shared/modals/are-you-sure-dialog/are-you-sure-dialog.component';
+import { DownloadReportComponent } from './download-report/download-report.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
    declarations: [
@@ -26,7 +29,8 @@ import { AreYouSureDialogComponent } from './shared/modals/are-you-sure-dialog/a
       DebtorHistoryComponent,
       NavBarComponent,
       DeleteDebtComponent,
-      AreYouSureDialogComponent
+      AreYouSureDialogComponent,
+      DownloadReportComponent
    ],
    imports: [
       HttpClientModule,
@@ -38,7 +42,9 @@ import { AreYouSureDialogComponent } from './shared/modals/are-you-sure-dialog/a
       NoopAnimationsModule,
       MatMenuModule,
       MatIconModule,
-      MatDialogModule
+      MatDialogModule,
+      MatDatepickerModule,
+      MatNativeDateModule
    ],
    entryComponents: [
       AddDebtComponent,

@@ -83,5 +83,17 @@ namespace Notepad.Web.Controllers
             await _deptorService.Delete(debtorId);
             return Ok();
         }
+
+        [HttpPost("download")]
+        [Produces("application/json")]
+        public async Task<IActionResult> DownloadReport([FromBody]DownloadReportRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            byte[] report = await _deptorService.DownloadReport(request);
+            return File(report, "application/force-download", "Report.xlsx");
+        }
     }
 }

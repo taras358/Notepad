@@ -34,7 +34,6 @@ namespace Notepad.Infrastructure.Repositories.EF
             return await _dbSet
                    .Where(x => x.Id == id)
                    .Include(x => x.Debts)
-                   .IgnoreQueryFilters()
                    .FirstOrDefaultAsync();
         }
 

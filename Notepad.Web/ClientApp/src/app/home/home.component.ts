@@ -73,6 +73,9 @@ export class HomeComponent implements OnInit {
 
   public onSearchDebtorClick() {
     const query = this.serachDeptorForm.controls.fullName.value;
+    if (query === '') {
+      this.getGebtors();
+    }
     this.findDebtors(query);
   }
 
@@ -117,7 +120,6 @@ export class HomeComponent implements OnInit {
             this.isAddDebtorFormActive = false;
           } else {
             this.isAddDebtorFormActive = true;
-            this.serachDeptorForm.reset();
             this.initAddDebtorForm(query);
           }
         });

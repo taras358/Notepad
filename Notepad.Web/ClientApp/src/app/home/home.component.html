@@ -1,5 +1,5 @@
 <div class="container">
-  <div *ngIf="!isAddDebtorFormActive">
+  <div>
     <form class="search-form" [formGroup]="serachDeptorForm">
       <input placeholder="Enter name or surname" type="text" formControlName="fullName">
       <button type="submit" (click)='onSearchDebtorClick()'><i class="icon-search"></i></button>
@@ -38,7 +38,8 @@
           <td>
             <div class="controls-contaiter">
               <div class="controls-contaiter_item">
-                <mat-icon *ngIf="!debtor.isEdited" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">more_vert
+                <mat-icon class="material-icons" *ngIf="!debtor.isEdited" mat-icon-button [matMenuTriggerFor]="menu"
+                  (click)="$event.stopPropagation()">more_vert
                 </mat-icon>
                 <mat-icon *ngIf="debtor.isEdited" (click)="onEditDebtorClick(debtor, $event)">
                   done
@@ -53,12 +54,7 @@
                     <span>Delete Debtor</span>
                   </button>
                 </mat-menu>
-                <!-- <span
-                  class="material-icons">
-                  more_vert
-                </span> -->
               </div>
-              <!-- <div class="controls-contaiter_item" (click)="onDeleteDebtorClick(debtor, $event)"><i class="icon-tools-and-utensils"></i></div> -->
             </div>
           </td>
         </tr>

@@ -6,6 +6,7 @@ using Notepad.Core.Interfaces.Repositories;
 using Notepad.Core.Interfaces.Services;
 using Notepad.Core.Models.Requests;
 using Notepad.Core.Models.Responses;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +16,16 @@ namespace Notepad.Core.Services
 {
     public class DeptorService : IDeptorService
     {
-        private readonly IDebtorRepository _deptorRepository;
+        private readonly IDebtorRepository _debtorRepository;
+        private readonly IDebtRepository _debtRepository;
         private readonly IMapper _mapper;
 
         public DeptorService(IDebtorRepository deptorRepository,
+            IDebtRepository  debtRepository,
             IMapper mapper)
         {
-            _deptorRepository = deptorRepository;
+            _debtorRepository = deptorRepository;
+            _debtRepository = debtRepository;
             _mapper = mapper;
         }
 
@@ -41,29 +45,29 @@ namespace Notepad.Core.Services
         public async Task<string> Create(CreateDebtorRequest request)
         {
             string fullName = $"{request.Name} {request.Surname}";
-            Debtor debtor = await _deptorRepository.GetByFullName(fullName);
+            Debtor debtor = await _debtorRepository.GetByFullName(fullName);
             if (debtor != null)
             {
                 throw new AppCustomException(StatusCodes.Status400BadRequest, "Debtor already exists");
             }
             debtor = _mapper.Map<CreateDebtorRequest, Debtor>(request);
-            string debtorId = await _deptorRepository.Add(debtor);
+            string debtorId = await _debtorRepository.Add(debtor);
             return debtorId;
         }
 
         public async Task Delete(string debtorId)
         {
-            Debtor debtor = await _deptorRepository.GetById(debtorId);
+            Debtor debtor = await _debtorRepository.GetById(debtorId);
             if (debtor is null)
             {
                 throw new AppCustomException(StatusCodes.Status400BadRequest, "Debtor does not exists");
             }
-            await _deptorRepository.Delete(debtor);
+            await _debtorRepository.Delete(debtor);
         }
 
         public async Task<DebtorsResponse> FindByFullName(string query)
         {
-            List<Debtor> debtors = await _deptorRepository.FindByFullName(query);
+            List<Debtor> debtors = await _debtorRepository.FindByFullName(query);
             DebtorsResponse debtorsResponse = _mapper.Map<List<Debtor>, DebtorsResponse>(debtors);
 
             return debtorsResponse;
@@ -71,7 +75,7 @@ namespace Notepad.Core.Services
 
         public async Task<DebtorsResponse> GetAll()
         {
-            List<Debtor> debtors = await _deptorRepository.GetAllWithAllIncludes();
+            List<Debtor> debtors = await _debtorRepository.GetAllWithAllIncludes();
             DebtorsResponse debtorsResponse = _mapper.Map<List<Debtor>, DebtorsResponse>(debtors);
             foreach (var debtor in debtors)
             {
@@ -87,8 +91,8 @@ namespace Notepad.Core.Services
 
         public async Task<DebtorResponse> GetById(string debtorId)
         {
-            Debtor debtor = await _deptorRepository.GetByIdWithIncludes(debtorId);
-            if(debtor is null)
+            Debtor debtor = await _debtorRepository.GetByIdWithIncludes(debtorId);
+            if (debtor is null)
             {
                 throw new AppCustomException(StatusCodes.Status400BadRequest, "Debtor does not exists");
             }
@@ -103,7 +107,7 @@ namespace Notepad.Core.Services
 
         public async Task<string> Update(UpdateDebtorRequest request)
         {
-            Debtor debtor = await _deptorRepository.GetById(request.Id);
+            Debtor debtor = await _debtorRepository.GetById(request.Id);
             if (debtor is null)
             {
                 throw new AppCustomException(StatusCodes.Status400BadRequest, "Debtor does not exists");
@@ -111,8 +115,42 @@ namespace Notepad.Core.Services
             debtor.Name = request.Name;
             debtor.Surname = request.Surname;
 
-            await _deptorRepository.Update(debtor);
+            await _debtorRepository.Update(debtor);
             return debtor.Id;
+        }
+
+        public async Task<byte[]> DownloadReport(DownloadReportRequest request)
+        {
+            ValidateRequest(request);
+            Debtor debtor = await _debtorRepository.GetById(request.DebtorId);
+            if (debtor is null)
+            {
+                throw new AppCustomException(StatusCodes.Status400BadRequest, "Debtor does not exists");
+            }
+            List<Debt> debts = await _debtRepository.FindByQuery(request.DebtorId, request.BeginDate, request.EndDate);
+            using (var package = new ExcelPackage())
+            {
+                int rowIndex = 1;
+                int colIndex = 1;
+                bool isHeaderSet = false;
+                string wsName = $"{debtor.Name} {debtor.Surname}";
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(wsName);
+
+                foreach (var debt in debtor.Debts)
+                {
+
+                }
+
+            }
+            return default;
+        }
+
+        private void ValidateRequest(DownloadReportRequest request)
+        {
+            if(request.EndDate < request.BeginDate)
+            {
+                throw new AppCustomException(StatusCodes.Status400BadRequest, "Incorrent date range");
+            }
         }
     }
 }

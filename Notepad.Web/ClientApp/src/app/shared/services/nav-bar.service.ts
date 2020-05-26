@@ -7,24 +7,12 @@ import { DebtorService } from './debtor.service';
 export class NavbarService {
     private links = new Array<{ text: string, path: string, iconClass: string }>();
 
-    constructor(private debtorServise: DebtorService) { }
+    constructor(private debtorServise: DebtorService) {
+        this.addItem({ text: 'Home', path: 'home', iconClass: 'icon-search' });
+    }
     public getLinks() {
         return this.links;
     }
-
-    // public setDebtor(debtor: Debtor) {
-    //     this.currentDeptorSubject.next(debtor);
-    //     localStorage.setItem('debtor', JSON.stringify(debtor));
-    //     if (debtor) {
-    //         this.updateNavAfterDebtorSelect();
-    //     }
-    // }
-
-    // public removeDebtor() {
-    //     this.currentDeptorSubject.next(null);
-    //     localStorage.removeItem('debtor');
-    //     this.clearAllItems();
-    // }
 
     public updateLinks(): void {
         this.clearAllItems();
@@ -32,7 +20,8 @@ export class NavbarService {
             this.addItem({ text: 'History', path: 'history', iconClass: 'icon-history-plus' });
             this.addItem({ text: 'Add debt', path: 'add-debt', iconClass: 'icon-add-sign' });
             this.addItem({ text: 'Delete debt', path: 'delete-debt', iconClass: 'icon-delete-sign' });
-        } else  {
+            this.addItem({ text: 'Download', path: 'download', iconClass: 'icon-download' });
+        } else {
             this.addItem({ text: 'Home', path: 'home', iconClass: 'icon-search' });
         }
     }

@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavbarService } from '../shared/services/nav-bar.service';
-import { DebtorHistoryComponent } from '../debtor-history/debtor-history.component';
-import { AddDebtComponent } from '../add-debt/add-debt.component';
-import { DeleteDebtComponent } from '../delete-debt/delete-debt.component';
 import { Debtor } from '../shared/models/deptor';
 import { DebtorService } from '../shared/services/debtor.service';
 

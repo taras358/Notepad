@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';;
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { DebtorsResponse } from '../models/deptors-response.model';
@@ -7,6 +7,7 @@ import { DebtorRequest as CreateDebtorRequest } from '../models/debtor-request.m
 import { DebtorResponse } from '../models/debtor-response.model';
 import { UpdateDebtorRequest } from '../models/update-debtor-request';
 import { Debtor } from '../models/deptor';
+import { DownloadReportModel } from '../models/download-report.model';
 
 @Injectable({
     providedIn: 'root'
@@ -67,5 +68,12 @@ export class DebtorService {
         const headers = new HttpHeaders()
             .set('Content-Type', 'application/json; charset=utf-8');
         return this.http.patch<void>(this.apiUrl + 'api/debtor/update', body, { headers: headers, responseType: 'json' });
+    }
+
+    public downloadReport(downloadReportModel: DownloadReportModel) {
+        const body = JSON.stringify(downloadReportModel);
+        const headers = new HttpHeaders()
+            .set('Content-Type', 'application/force-download; charset=utf-8');
+        return this.http.patch<void>(this.apiUrl + 'api/debtor/download', body, { headers: headers});
     }
 }

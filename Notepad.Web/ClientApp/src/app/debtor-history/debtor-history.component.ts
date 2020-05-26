@@ -56,6 +56,7 @@ export class DebtorHistoryComponent implements OnInit {
             id: response.id,
             name: response.name,
             surname: response.surname,
+            totalDebt: response.totalDebt,
             debts: response.debts.map(x => {
               return {
                 id: x.id,
