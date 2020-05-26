@@ -109,11 +109,7 @@ namespace Notepad.Web
             {
                 options.AddPolicy("OriginPolicy", builder =>
                 {
-                    //builder.WithOrigins(origins.Split(",", StringSplitOptions.RemoveEmptyEntries).ToArray())
-                    //    .AllowAnyHeader()
-                    //    .AllowAnyMethod()
-                    //    .AllowCredentials().WithExposedHeaders(ExceptionConstants.TokenExpiredHeader, ExceptionConstants.InvalidRefresh);
-                    builder.WithOrigins(origins.Split(",", StringSplitOptions.RemoveEmptyEntries).ToArray())
+                    builder
                         .SetIsOriginAllowed((host) => true)
                         .AllowAnyHeader()
                         .AllowAnyMethod()

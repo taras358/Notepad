@@ -1,0 +1,11 @@
+.buttons-container {
+    justify-content: space-between;
+    button {
+        border: none;
+        background: #e9ecef;
+        padding: 5px 10px 5px 10px;
+        border-radius: 10px;
+        width: 45%;
+        outline: none;
+    }
+}

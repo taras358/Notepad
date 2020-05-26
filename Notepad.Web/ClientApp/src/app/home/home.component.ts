@@ -6,9 +6,9 @@ import { DebtorRequest } from '../shared/models/debtor-request.model';
 import { Debtor } from '../shared/models/deptor';
 import { Router } from '@angular/router';
 import { NavbarService } from '../shared/services/nav-bar.service';
-import { Observable } from 'rxjs';
-import { UpdateDebtRequest } from '../shared/models/update-debt-request';
 import { UpdateDebtorRequest } from '../shared/models/update-debtor-request';
+import { MatDialog } from '@angular/material/dialog';
+import { AreYouSureDialogComponent } from '../shared/modals/are-you-sure-dialog/are-you-sure-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +22,8 @@ export class HomeComponent implements OnInit {
 
   constructor(public debtorServise: DebtorService,
     private router: Router,
-    private navbarService: NavbarService) { }
+    private navbarService: NavbarService,
+    public dialog: MatDialog) { }
 
   public createDeptorFrom: FormGroup;
   public editDeptorFrom: FormGroup;
@@ -159,8 +160,7 @@ export class HomeComponent implements OnInit {
       debtor.isEdited = !debtor.isEdited;
     }
   }
-  public onDeleteDebtorClick(debtor: Debtor, event) {
-    event.stopPropagation();
+  public onDeleteDebtorClick(debtor: Debtor) {
     if (debtor) {
       this.debtorServise.deleteDebtor(debtor.id)
         .subscribe(() => {
@@ -170,6 +170,20 @@ export class HomeComponent implements OnInit {
         });
     }
   }
+
+  public openDialog(debtor: Debtor, event: any): void {
+
+    const dialogRef = this.dialog.open(AreYouSureDialogComponent, {
+      data: {
+        message: `Are you sure you want to delete ${debtor.name} ${debtor.surname}?`
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.onDeleteDebtorClick(debtor);
+        }
+      });
+  }
 }
-
-

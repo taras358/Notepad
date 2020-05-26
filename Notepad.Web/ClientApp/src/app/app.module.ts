@@ -12,6 +12,11 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { DeleteDebtComponent } from './delete-debt/delete-debt.component';
 import { CommonModule } from '@angular/common';
 import { CanActivateDebtor } from './shared/guards/can-activete-debtor.guard';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDialogModule} from '@angular/material/dialog';
+import { AreYouSureDialogComponent } from './shared/modals/are-you-sure-dialog/are-you-sure-dialog.component';
 
 @NgModule({
    declarations: [
@@ -20,7 +25,8 @@ import { CanActivateDebtor } from './shared/guards/can-activete-debtor.guard';
       AddDebtComponent,
       DebtorHistoryComponent,
       NavBarComponent,
-      DeleteDebtComponent
+      DeleteDebtComponent,
+      AreYouSureDialogComponent
    ],
    imports: [
       HttpClientModule,
@@ -28,12 +34,17 @@ import { CanActivateDebtor } from './shared/guards/can-activete-debtor.guard';
       ReactiveFormsModule,
       AppRoutingModule,
       BrowserModule,
-      CommonModule
+      CommonModule,
+      NoopAnimationsModule,
+      MatMenuModule,
+      MatIconModule,
+      MatDialogModule
    ],
    entryComponents: [
       AddDebtComponent,
       DebtorHistoryComponent,
-      DeleteDebtComponent
+      DeleteDebtComponent,
+      AreYouSureDialogComponent
    ],
    providers: [
       CanActivateDebtor
