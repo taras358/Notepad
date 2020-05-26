@@ -19,7 +19,7 @@ namespace Notepad.Infrastructure.Repositories.EF
         public async Task<List<Debt>> FindByQuery(string debtorId, DateTimeOffset beginDate, DateTimeOffset endDate)
         {
             return await _dbSet
-               .Where(x => x.DebtorId == debtorId && x.CreationDate <= beginDate && x.CreationDate >= endDate)
+               .Where(x => x.DebtorId == debtorId && x.CreationDate >= beginDate && x.CreationDate <= endDate)
                .ToListAsync();
         }
 

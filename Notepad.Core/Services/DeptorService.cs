@@ -127,7 +127,9 @@ namespace Notepad.Core.Services
             {
                 throw new AppCustomException(StatusCodes.Status400BadRequest, "Debtor does not exists");
             }
-            List<Debt> debts = await _debtRepository.FindByQuery(request.DebtorId, request.BeginDate, request.EndDate);
+            DateTimeOffset beginDate = DateTimeOffset.Parse(request.BeginDate);
+            DateTimeOffset endDate = DateTimeOffset.Parse(request.EndDate);
+            List<Debt> debts = await _debtRepository.FindByQuery(request.DebtorId, beginDate, endDate);
             using (var package = new ExcelPackage())
             {
                 int rowIndex = 1;
@@ -136,21 +138,24 @@ namespace Notepad.Core.Services
                 string wsName = $"{debtor.Name} {debtor.Surname}";
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(wsName);
 
-                foreach (var debt in debtor.Debts)
+                foreach (var debt in debts)
                 {
-
+                    worksheet.Cells[rowIndex, colIndex].Value = debt.CreationDate;
+                    worksheet.Cells[rowIndex, ++colIndex].Value = debt.Amount;
+                    worksheet.Cells[rowIndex, ++colIndex].Value = debt.Description;
+                    rowIndex++;
+                    colIndex = 1;
                 }
-
+                return package.GetAsByteArray();
             }
-            return default;
         }
 
         private void ValidateRequest(DownloadReportRequest request)
         {
-            if(request.EndDate < request.BeginDate)
-            {
-                throw new AppCustomException(StatusCodes.Status400BadRequest, "Incorrent date range");
-            }
+            //if(request.EndDate < request.BeginDate)
+            //{
+            //    throw new AppCustomException(StatusCodes.Status400BadRequest, "Incorrent date range");
+            //}
         }
     }
 }

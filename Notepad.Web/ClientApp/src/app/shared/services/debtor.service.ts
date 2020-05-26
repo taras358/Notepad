@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { DebtorsResponse } from '../models/deptors-response.model';
 import { Observable } from 'rxjs';
@@ -8,6 +8,7 @@ import { DebtorResponse } from '../models/debtor-response.model';
 import { UpdateDebtorRequest } from '../models/update-debtor-request';
 import { Debtor } from '../models/deptor';
 import { DownloadReportModel } from '../models/download-report.model';
+import { saveAs } from 'file-saver';
 
 @Injectable({
     providedIn: 'root'
@@ -70,10 +71,13 @@ export class DebtorService {
         return this.http.patch<void>(this.apiUrl + 'api/debtor/update', body, { headers: headers, responseType: 'json' });
     }
 
-    public downloadReport(downloadReportModel: DownloadReportModel) {
+    public downloadReport(downloadReportModel: DownloadReportModel): Observable<Blob> {
         const body = JSON.stringify(downloadReportModel);
         const headers = new HttpHeaders()
-            .set('Content-Type', 'application/force-download; charset=utf-8');
-        return this.http.patch<void>(this.apiUrl + 'api/debtor/download', body, { headers: headers});
+            .set('Content-Type', 'application/json; charset=utf-8');
+        return this.http.post<Blob>(this.apiUrl + 'api/debtor/download', body, {
+            headers: headers,
+            responseType: 'blob' as 'json'
+        });
     }
 }

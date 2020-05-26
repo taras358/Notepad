@@ -52,15 +52,22 @@
         }
     }
 }
+:host ::ng-deep .mat-icon-button{
+    outline: none;
+}
 .button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
     button {
         background: #903;
         color: #fff;
         border: none;
-        width: 100%;
+        width: 49%;
         border-radius: 10px;
         margin-top: 7px;
-        padding: 5px 10px;
+        padding: 1px 10px;
         outline: none;
     }
 }

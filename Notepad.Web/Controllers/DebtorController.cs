@@ -85,7 +85,6 @@ namespace Notepad.Web.Controllers
         }
 
         [HttpPost("download")]
-        [Produces("application/json")]
         public async Task<IActionResult> DownloadReport([FromBody]DownloadReportRequest request)
         {
             if (!ModelState.IsValid)

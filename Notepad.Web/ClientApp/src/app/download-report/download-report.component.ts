@@ -4,6 +4,7 @@ import { DebtorService } from '../shared/services/debtor.service';
 import { Debtor } from '../shared/models/deptor';
 import { NavbarService } from '../shared/services/nav-bar.service';
 import * as moment from 'moment';
+import { saveAs } from 'file-saver';
 import { DownloadReportModel } from '../shared/models/download-report.model';
 @Component({
   selector: 'app-download-report',
@@ -38,7 +39,8 @@ export class DownloadReportComponent implements OnInit {
       } as DownloadReportModel;
       this.debtorService.downloadReport(downloadReportModel)
         .subscribe(response => {
-          alert("aaa")
+          const fileName = `Report_${this.debtor.name}_${this.debtor.surname}.xlsx`;
+          saveAs(response, fileName);
         });
     }
   }
