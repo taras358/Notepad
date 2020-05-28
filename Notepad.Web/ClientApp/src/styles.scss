@@ -30,9 +30,11 @@
 }
 .icon-delete-debt:before {
   content: "\e907";
+  font-size: x-large;
 }
 .icon-return-debt:before {
   content: "\e908";
+  font-size: x-large;
 }
 .icon-tools-and-utensils:before {
   content: "\e906";
@@ -55,34 +57,6 @@
 .icon-history-plus:before {
   content: "\e903";
 }
-
-// .icon-delete-debt:before {
-//   content: url('assets/icons/delete-debt.svg');
-// }
-// .icon-return-debt:before {
-//   content: url('assets/icons/return-debt.svg');
-// }
-// .icon-tools-and-utensils:before {
-//   content: url('assets/icons/trash-bin.svg');
-// }
-// .icon-edit-sign:before {
-//   content: url('assets/icons/pensil.svg');
-// }
-// .icon-search:before {
-//   content: url('assets/icons/search.svg');
-// }
-// .icon-add-sign:before {
-//   content: url('assets/icons/add-debt.svg');
-// }
-// .icon-delete-sign:before {
-//   content: url('assets/icons/delete.svg');
-// }
-// .icon-back-arrow:before {
-//   content: url('assets/icons/back-arrow.svg');
-// }
-// .icon-history-plus:before {
-//   content: url('assets/icons/history.svg');
-// }
 
 ::-webkit-scrollbar {
   height: 0.88vh;

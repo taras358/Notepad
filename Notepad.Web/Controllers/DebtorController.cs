@@ -84,15 +84,25 @@ namespace Notepad.Web.Controllers
             return Ok();
         }
 
-        [HttpPost("download")]
-        public async Task<IActionResult> DownloadReport([FromBody]DownloadReportRequest request)
+        [HttpPost("downloadExcel")]
+        public async Task<IActionResult> DownloadExceReport([FromBody]DownloadReportRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            byte[] report = await _deptorService.DownloadReport(request);
+            byte[] report = await _deptorService.DownloadExcelReport(request);
             return File(report, "application/force-download", "Report.xlsx");
+        }
+        [HttpPost("downloadPdf")]
+        public async Task<IActionResult> DownloadPdfReport([FromBody]DownloadReportRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            byte[] report = await _deptorService.DownloadPdfReport(request);
+            return File(report, "application/force-download", "Report.pdf");
         }
     }
 }

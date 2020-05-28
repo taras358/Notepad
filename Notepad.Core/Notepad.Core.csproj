@@ -5,12 +5,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="DTOs" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="AutoMapper" Version="9.0.0" />
       <PackageReference Include="EPPlus" Version="4.5.3.3" />
+      <PackageReference Include="IronPdf" Version="2020.3.2" />
       <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
       <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.0-preview.3.20215.14" />
       <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.5.1" />

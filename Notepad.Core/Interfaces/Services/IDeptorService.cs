@@ -12,6 +12,7 @@ namespace Notepad.Core.Interfaces.Services
         Task<DebtorsResponse> GetAll();
         Task<DebtorsResponse> FindByFullName(string query);
         Task Delete(string debtorId);
-        Task<byte[]> DownloadReport(DownloadReportRequest request);
+        Task<byte[]> DownloadExcelReport(DownloadReportRequest request);
+        Task<byte[]> DownloadPdfReport(DownloadReportRequest request);
     }
 }

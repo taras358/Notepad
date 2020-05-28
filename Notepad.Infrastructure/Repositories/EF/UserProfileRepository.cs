@@ -1,4 +1,5 @@
-﻿using Notepad.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Notepad.Core.Entities;
 using Notepad.Core.Interfaces.Repositories;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,9 +16,9 @@ namespace Notepad.Infrastructure.Repositories.EF
 
         public async Task<UserProfile> GetByUserId(string userId)
         {
-            return _dbSet
+            return  await _dbSet
                 .Where(x => x.UserId == userId)
-                .SingleOrDefault();
+                .SingleOrDefaultAsync();
         }
     }
 }

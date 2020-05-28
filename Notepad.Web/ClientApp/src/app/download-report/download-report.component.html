@@ -1,12 +1,12 @@
 <div class="container">
   <div class="title">
-    <span>{{debtor.name}} {{debtor.surname}}</span>
+    <span>{{debtor.surname}} {{debtor.name}}</span>
   </div>
   <div [formGroup]="datePickerForm" class="data-picker-container">
     <div class="data-picker-container-item">
       <div class="calendar-container">
         <input formControlName="beginDate" [max]="currentDay" [min]="minDate" matInput [matDatepicker]="beginDate"
-          disabled placeholder="Choose a begin date" (dateChange)="onDateChangeClick($event)">
+          disabled placeholder="Выберите начальную дату" (dateChange)="onDateChangeClick($event)">
         <mat-datepicker-toggle matSuffix [for]="beginDate"></mat-datepicker-toggle>
         <mat-datepicker #beginDate disabled="false"></mat-datepicker>
       </div>
@@ -14,7 +14,7 @@
     <div class="data-picker-container-item">
       <div class="calendar-container">
         <input formControlName="endDate" [max]="currentDay" [min]="minDate" matInput [matDatepicker]="endDate" disabled
-          placeholder="Choose a end date" (dateChange)="onDateChangeClick($event)">
+          placeholder="Выберите конечную дату" (dateChange)="onDateChangeClick($event)">
         <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
         <mat-datepicker #endDate disabled="false"></mat-datepicker>
       </div>
@@ -22,10 +22,10 @@
   </div>
   <div class="button-container">
     <button [disabled]="!this.datePickerForm.valid" [ngClass]="{'btn-disabled': !this.datePickerForm.valid}"
-      type="submit" (click)='onDownloadBtnClick()'>DOWNLOAD PDF
+      type="submit" (click)='onDownloadPdfBtnClick()'>СКАЧАТЬ PDF
     </button>
     <button [disabled]="!this.datePickerForm.valid" [ngClass]="{'btn-disabled': !this.datePickerForm.valid}"
-      type="submit" (click)='onDownloadBtnClick()'>DOWNLOAD Excel
+      type="submit" (click)='onDownloadExcelBtnClick()'>СКАЧАТЬ Excel
     </button>
   </div>
 </div>

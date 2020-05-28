@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { DebtorService } from '../shared/services/debtor.service';
-import { DebtorResponse } from '../shared/models/debtor-response.model';
+import { DebtorService } from '../../shared/services/debtor.service';
+import { DebtorResponse } from '../../shared/models/debtor-response.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { DebtorRequest } from '../shared/models/debtor-request.model';
-import { Debtor } from '../shared/models/deptor';
+import { DebtorRequest } from '../../shared/models/debtor-request.model';
+import { Debtor } from '../../shared/models/deptor';
 import { Router } from '@angular/router';
-import { NavbarService } from '../shared/services/nav-bar.service';
-import { UpdateDebtorRequest } from '../shared/models/update-debtor-request';
+import { NavbarService } from '../../shared/services/nav-bar.service';
+import { UpdateDebtorRequest } from '../../shared/models/update-debtor-request';
 import { MatDialog } from '@angular/material/dialog';
-import { AreYouSureDialogComponent } from '../shared/modals/are-you-sure-dialog/are-you-sure-dialog.component';
+import { AreYouSureDialogComponent } from '../../shared/modals/are-you-sure-dialog/are-you-sure-dialog.component';
 
 @Component({
   selector: 'app-home',

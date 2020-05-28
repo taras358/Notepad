@@ -132,7 +132,7 @@ namespace Notepad.Core.Services
             return response;
         }
 
-        public async Task<string> UpdateUser(UpdateUserRequest updateUserRequest)
+        public Task<string> UpdateUser(UpdateUserRequest updateUserRequest)
         {
             throw new System.NotImplementedException();
         }

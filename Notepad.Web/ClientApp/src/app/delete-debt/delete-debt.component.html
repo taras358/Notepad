@@ -1,9 +1,9 @@
 <div class="container">
   <div class="title">
-    <span>{{debtor.name}} {{debtor.surname}}</span>
+    <span>{{debtor.surname}} {{debtor.name}}</span>
   </div>
   <form class="delete-debt-form" [formGroup]="deleteDebtGroup">
-    <input class="amout-input" type="text" formControlName="amount" placeholder="Enter amount">
-    <button type="submit" (click)='onDeleteDebtClick()'>DELETE</button>
+    <input class="amout-input" type="text" formControlName="amount" placeholder="Введите сумму">
+    <button type="submit" (click)='onDeleteDebtClick()'>УДАЛИТЬ</button>
   </form>
 </div>

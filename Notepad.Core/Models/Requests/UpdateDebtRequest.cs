@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Notepad.Core.Models.Requests
 {
@@ -6,12 +7,19 @@ namespace Notepad.Core.Models.Requests
     {
         [Required]
         public string Id { get; set; }
+
         [Required]
         public string DebtorId { get; set; }
+
         [Required]
         public double Amount { get; set; }
+
         [Required]
         public string Description { get; set; }
+
+        [Required]
+        public DateTimeOffset CreationDate { get; set; }
+
         [Required]
         public bool IsRepaid { get; set; }
     }

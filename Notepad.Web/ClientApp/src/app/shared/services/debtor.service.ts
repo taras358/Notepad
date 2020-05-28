@@ -71,11 +71,20 @@ export class DebtorService {
         return this.http.patch<void>(this.apiUrl + 'api/debtor/update', body, { headers: headers, responseType: 'json' });
     }
 
-    public downloadReport(downloadReportModel: DownloadReportModel): Observable<Blob> {
+    public downloadExcelReport(downloadReportModel: DownloadReportModel): Observable<Blob> {
         const body = JSON.stringify(downloadReportModel);
         const headers = new HttpHeaders()
             .set('Content-Type', 'application/json; charset=utf-8');
-        return this.http.post<Blob>(this.apiUrl + 'api/debtor/download', body, {
+        return this.http.post<Blob>(this.apiUrl + 'api/debtor/downloadExcel', body, {
+            headers: headers,
+            responseType: 'blob' as 'json'
+        });
+    }
+    public downloadPdfReport(downloadReportModel: DownloadReportModel): Observable<Blob> {
+        const body = JSON.stringify(downloadReportModel);
+        const headers = new HttpHeaders()
+            .set('Content-Type', 'application/json; charset=utf-8');
+        return this.http.post<Blob>(this.apiUrl + 'api/debtor/downloadPdf', body, {
             headers: headers,
             responseType: 'blob' as 'json'
         });

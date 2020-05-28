@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Notepad.Core.DTOs;
 using Notepad.Core.Entities;
 using Notepad.Core.Interfaces.Repositories;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,10 +16,10 @@ namespace Notepad.Infrastructure.Repositories.EF
             _dbSet = appDbContext.Set<Debt>();
         }
 
-        public async Task<List<Debt>> FindByQuery(string debtorId, DateTimeOffset beginDate, DateTimeOffset endDate)
+        public async Task<List<Debt>> FindByQuery(string debtorId, DateRangeDto rangeDto)
         {
             return await _dbSet
-               .Where(x => x.DebtorId == debtorId && x.CreationDate >= beginDate && x.CreationDate <= endDate)
+               .Where(x => x.DebtorId == debtorId && x.CreationDate.Date >= rangeDto.BeginDate.Date && x.CreationDate.Date <= rangeDto.EndDate.Date)
                .ToListAsync();
         }
 

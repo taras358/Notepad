@@ -1,15 +1,15 @@
 <div class="container">
   <div>
     <form class="search-form" [formGroup]="serachDeptorForm">
-      <input placeholder="Enter name or surname" type="text" formControlName="fullName">
+      <input placeholder="Введите фамилию и имя" type="text" formControlName="fullName">
       <button type="submit" (click)='onSearchDebtorClick()'><i class="icon-search"></i></button>
     </form>
   </div>
 
   <div *ngIf="isAddDebtorFormActive">
     <form class="add-form" [formGroup]="createDeptorFrom">
-      <input class="add-form_input_name" type="text" formControlName="name" placeholder="Enter Name">
-      <input class="add-form_input_surname" type="text" formControlName="surname" placeholder="Enter Surname">
+      <input class="add-form_input_surname" type="text" formControlName="surname" placeholder="Введите фамилию">
+      <input class="add-form_input_name" type="text" formControlName="name" placeholder="Введите имя">
       <button type="submit" (click)='onAddDebtorClick()'><i class="icon-add-sign"></i></button>
     </form>
   </div>
@@ -18,21 +18,21 @@
     <table class="table-container">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Surname</th>
-          <th>Total Debt</th>
+          <th>Фамилия</th>
+          <th>Имя</th>
+          <th>Общий лолг (грн)</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let debtor of filtered" (click)='onDebtorClick(debtor)'
           [ngClass]="{'debtor-row': !debtor.isEdited, 'edit-debtor-row': debtor.isEdited}" [formGroup]="editDeptorFrom">
           <td>
-            <span *ngIf="!debtor.isEdited">{{debtor.name}}</span>
-            <input *ngIf="debtor.isEdited" type="text" formControlName="name{{debtor.id}}" class="edit-form-input">
-          </td>
-          <td>
             <span class="" *ngIf="!debtor.isEdited">{{debtor.surname}}</span>
             <input *ngIf="debtor.isEdited" type="text" formControlName="surname{{debtor.id}}" class="edit-form-input">
+          </td>
+          <td>
+            <span *ngIf="!debtor.isEdited">{{debtor.name}}</span>
+            <input *ngIf="debtor.isEdited" type="text" formControlName="name{{debtor.id}}" class="edit-form-input">
           </td>
           <td class="pading-shift">{{debtor.totalDebt | number:'1.1-2'}}</td>
           <td>
@@ -47,11 +47,11 @@
                 <mat-menu #menu="matMenu">
                   <button mat-menu-item (click)="onEditDebtorClick(debtor, $event)">
                     <mat-icon>edit</mat-icon>
-                    <span>Edit Debtor</span>
+                    <span>Редактировать</span>
                   </button>
                   <button mat-menu-item (click)="openDialog(debtor, $event)">
                     <mat-icon>delete_forever</mat-icon>
-                    <span>Delete Debtor</span>
+                    <span>Удалить</span>
                   </button>
                 </mat-menu>
               </div>

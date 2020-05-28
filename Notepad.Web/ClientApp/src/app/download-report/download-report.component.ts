@@ -30,16 +30,34 @@ export class DownloadReportComponent implements OnInit {
     });
     this.currentDay = moment().toDate();
   }
-  public onDownloadBtnClick() {
+  public onDownloadExcelBtnClick() {
     if (this.datePickerForm.valid) {
+      const beginDate = moment(this.datePickerForm.controls.beginDate.value).format('MM/DD/YYYY');
+      const endDate = moment(this.datePickerForm.controls.endDate.value).format('MM/DD/YYYY');
       const downloadReportModel = {
         debtorId: this.debtor.id,
-        beginDate: this.datePickerForm.controls.beginDate.value,
-        endDate: this.datePickerForm.controls.endDate.value
+        beginDate: beginDate.toString(),
+        endDate: endDate.toString()
       } as DownloadReportModel;
-      this.debtorService.downloadReport(downloadReportModel)
+      this.debtorService.downloadExcelReport(downloadReportModel)
         .subscribe(response => {
           const fileName = `Report_${this.debtor.name}_${this.debtor.surname}.xlsx`;
+          saveAs(response, fileName);
+        });
+    }
+  }
+  public onDownloadPdfBtnClick() {
+    if (this.datePickerForm.valid) {
+      const beginDate = moment(this.datePickerForm.controls.beginDate.value).format('MM/DD/YYYY');
+      const endDate = moment(this.datePickerForm.controls.endDate.value).format('MM/DD/YYYY');
+      const downloadReportModel = {
+        debtorId: this.debtor.id,
+        beginDate: beginDate.toString(),
+        endDate: endDate.toString()
+      } as DownloadReportModel;
+      this.debtorService.downloadPdfReport(downloadReportModel)
+        .subscribe(response => {
+          const fileName = `Report_${this.debtor.name}_${this.debtor.surname}.pdf`;
           saveAs(response, fileName);
         });
     }

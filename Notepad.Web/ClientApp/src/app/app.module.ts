@@ -4,56 +4,28 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { AddDebtComponent } from './add-debt/add-debt.component';
-import { AppRoutingModule  } from './app-routing.module';
-import { DebtorHistoryComponent } from './debtor-history/debtor-history.component';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { DeleteDebtComponent } from './delete-debt/delete-debt.component';
+import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { CanActivateDebtor } from './shared/guards/can-activete-debtor.guard';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatIconModule} from '@angular/material/icon';
-import {MatDialogModule} from '@angular/material/dialog';
-import { AreYouSureDialogComponent } from './shared/modals/are-you-sure-dialog/are-you-sure-dialog.component';
-import { DownloadReportComponent } from './download-report/download-report.component';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 @NgModule({
    declarations: [
-      AppComponent,
-      HomeComponent,
-      AddDebtComponent,
-      DebtorHistoryComponent,
-      NavBarComponent,
-      DeleteDebtComponent,
-      AreYouSureDialogComponent,
-      DownloadReportComponent
+      AppComponent
    ],
    imports: [
       HttpClientModule,
       FormsModule,
       ReactiveFormsModule,
       AppRoutingModule,
-      BrowserModule,
       CommonModule,
-      NoopAnimationsModule,
-      MatMenuModule,
-      MatIconModule,
-      MatDialogModule,
-      MatDatepickerModule,
-      MatNativeDateModule
+      BrowserModule,
    ],
    entryComponents: [
-      AddDebtComponent,
-      DebtorHistoryComponent,
-      DeleteDebtComponent,
-      AreYouSureDialogComponent
    ],
    providers: [
-      CanActivateDebtor
+      CanActivateDebtor,
+      AuthGuard
    ],
    bootstrap: [
       AppComponent
